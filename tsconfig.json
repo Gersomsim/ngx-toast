@@ -33,6 +33,12 @@
     },
     {
       "path": "./projects/gersomsim/ngx-toast/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/showcase/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/showcase/tsconfig.spec.json"
     }
   ]
 }
