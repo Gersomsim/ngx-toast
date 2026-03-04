@@ -6,32 +6,6 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "@gersomsim/ngx-toast": {
-      "projectType": "library",
-      "root": "projects/gersomsim/ngx-toast",
-      "sourceRoot": "projects/gersomsim/ngx-toast/src",
-      "prefix": "gsm",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/gersomsim/ngx-toast/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/gersomsim/ngx-toast/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/gersomsim/ngx-toast/tsconfig.spec.json"
-          }
-        }
-      }
-    },
     "showcase": {
       "projectType": "application",
       "schematics": {},
@@ -92,6 +66,32 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "@gersomsim/ngx-notify": {
+      "projectType": "library",
+      "root": "projects/gersomsim/ngx-notify",
+      "sourceRoot": "projects/gersomsim/ngx-notify/src",
+      "prefix": "gsm",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gersomsim/ngx-notify/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gersomsim/ngx-notify/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/gersomsim/ngx-notify/tsconfig.spec.json"
+          }
         }
       }
     }

@@ -4,6 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@gersomsim/ngx-notify": [
+        "./dist/gersomsim/ngx-notify"
+      ],
       "@gersomsim/ngx-toast": [
         "./dist/gersomsim/ngx-toast"
       ]
@@ -39,6 +42,12 @@
     },
     {
       "path": "./projects/showcase/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/gersomsim/ngx-notify/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/gersomsim/ngx-notify/tsconfig.spec.json"
     }
   ]
 }

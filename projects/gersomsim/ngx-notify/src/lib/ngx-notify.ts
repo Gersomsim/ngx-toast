@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'gsm-ngx-toast',
+  selector: 'gsm-ngx-notify',
   imports: [],
   template: `
     <p>
-      ngx-toast works!
+      ngx-notify works!
     </p>
   `,
   styles: ``,
 })
-export class NgxToast {
+export class NgxNotify {
 
 }
