@@ -1,0 +1,16 @@
+<div class="notify {{ cssClass() }}">
+  @if(withIcon()) {
+    <div class="notify-icon">
+      {{ icon() }}
+    </div>
+  }
+  @if(withCloseButton()) {
+    <button class="notify-close">X</button>
+  }
+  <div class="notify-content">
+    @if(title()) {
+      <p class="notify-title">{{ title() }}</p>
+    }
+    <p class="notify-message">{{ message() }}</p>
+  </div>
+</div>
