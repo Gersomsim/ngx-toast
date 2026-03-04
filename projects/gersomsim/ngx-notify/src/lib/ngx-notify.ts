@@ -31,7 +31,7 @@ export class NgxNotify {
   });
 
   cssClass = computed(() => {
-    return `${this.type()} ${this.position()}`;
+    return `notify ${this.type()} ${this.position()}`;
   });
   
   close() {
