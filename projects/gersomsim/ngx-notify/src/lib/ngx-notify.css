@@ -19,9 +19,9 @@
   line-height: 1.5;
 }
 
-/* --- Botón cerrar (top-left via order: -1) --------------- */
+/* --- Botón cerrar (top-right via order: 1) --------------- */
 .notify-close {
-  order: -1;
+  order: 2;
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
