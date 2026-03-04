@@ -1,0 +1,1 @@
+export type AnimationType = 'fade' | 'slide' | 'zoom' | 'none';

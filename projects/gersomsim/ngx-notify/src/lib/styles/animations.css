@@ -1,0 +1,141 @@
+/* ==========================================================
+   ngx-notify — Animations
+
+   Tipos:   fade | slide | zoom | none
+   Entrada: clase .anim-{type}  (aplicada desde cssClass())
+   Salida:  clase .notify--exit (añadida por close() antes de destruir)
+
+   Easing:
+     Entrada → cubic-bezier(0.16, 1, 0.3, 1)  — settle suave, tipo spring
+     Salida  → cubic-bezier(0.4, 0, 1, 1)     — aceleración de salida
+
+   Tiempos de salida (deben coincidir con el setTimeout en close()):
+     fade:  180ms
+     slide: 200ms
+     zoom:  180ms
+     none:  0ms
+   ========================================================== */
+
+/* --- Dirección del slide por posición (CSS var) ---------- */
+/*
+ * Las posiciones centradas usan la prop. CSS 'translate' (no 'transform'),
+ * por eso el transform de la animación no las rompe.
+ * Las esquinas no tienen transform → el default (desde la derecha) aplica.
+ */
+.notify {
+  --notify-slide: translateX(calc(100% + 1.5rem)); /* default: desde la derecha */
+}
+
+.top-left,
+.bottom-left,
+.center-left {
+  --notify-slide: translateX(calc(-100% - 1.5rem));
+}
+
+.top-center {
+  --notify-slide: translateY(calc(-100% - 1.5rem));
+}
+
+.bottom-center {
+  --notify-slide: translateY(calc(100% + 1.5rem));
+}
+
+/* center / center-right → mantienen default (desde la derecha) */
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+
+/* --- Fade ------------------------------------------------- */
+@keyframes notify-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes notify-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* --- Slide ------------------------------------------------ */
+@keyframes notify-slide-in {
+  from {
+    opacity: 0;
+    transform: var(--notify-slide);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes notify-slide-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: var(--notify-slide);
+  }
+}
+
+/* --- Zoom ------------------------------------------------- */
+@keyframes notify-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes notify-zoom-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+/* ============================================================
+   Clases de entrada — aplicadas desde cssClass()
+   ============================================================ */
+
+.anim-fade {
+  animation: notify-fade-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-slide {
+  animation: notify-slide-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-zoom {
+  animation: notify-zoom-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-none {
+  animation: none;
+}
+
+/* ============================================================
+   Clases de salida — .notify--exit añadida por close()
+   Sobreescribe la animación de entrada con la de salida.
+   ============================================================ */
+
+.anim-fade.notify--exit {
+  animation: notify-fade-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+.anim-slide.notify--exit {
+  animation: notify-slide-out 200ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+.anim-zoom.notify--exit {
+  animation: notify-zoom-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}

@@ -1,4 +1,16 @@
+/* ==========================================================
+   ngx-notify — Positions
 
+   Las esquinas usan top/right/bottom/left directamente.
+   Las posiciones centradas usan la propiedad CSS 'translate'
+   (CSS Individual Transforms) en lugar de 'transform: translate*()',
+   para que las animaciones puedan usar 'transform' libremente
+   sin romper el centrado.
+
+   Soporte: Chrome 104+ / Firefox 72+ / Safari 14.1+
+   ========================================================== */
+
+/* --- Esquinas (sin transform) ---------------------------- */
 .top-right {
   top: 1rem;
   right: 1rem;
@@ -7,12 +19,6 @@
 .top-left {
   top: 1rem;
   left: 1rem;
-}
-
-.top-center {
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .bottom-right {
@@ -25,26 +31,33 @@
   left: 1rem;
 }
 
+/* --- Centradas (translate en lugar de transform) --------- */
+.top-center {
+  top: 1rem;
+  left: 50%;
+  translate: -50% 0;
+}
+
 .bottom-center {
   bottom: 1rem;
   left: 50%;
-  transform: translateX(-50%);
+  translate: -50% 0;
 }
 
 .center-right {
   top: 50%;
   right: 1rem;
-  transform: translateY(-50%);
+  translate: 0 -50%;
 }
 
 .center-left {
   top: 50%;
   left: 1rem;
-  transform: translateY(-50%);
+  translate: 0 -50%;
 }
 
 .center {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
 }
