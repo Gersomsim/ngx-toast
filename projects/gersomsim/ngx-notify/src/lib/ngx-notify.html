@@ -5,7 +5,7 @@
     </div>
   }
   @if(withCloseButton()) {
-    <button class="notify-close">X</button>
+    <button class="notify-close" (click)="close()">X</button>
   }
   <div class="notify-content">
     @if(title()) {

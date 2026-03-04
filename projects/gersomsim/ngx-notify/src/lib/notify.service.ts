@@ -20,6 +20,10 @@ export class NotifyService {
     compRef.setInput('title', config.title);
     compRef.setInput('withIcon', config.icon);
     compRef.setInput('withCloseButton', config.closeButton);
+
+    compRef.instance.close$.subscribe(() => {
+      this.destroy(compRef, config.onClose);
+    });
     
     this.appRef.attachView(compRef.hostView);
     document.body.appendChild(compRef.location.nativeElement);

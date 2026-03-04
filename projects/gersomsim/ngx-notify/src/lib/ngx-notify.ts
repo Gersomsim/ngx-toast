@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { Subject } from 'rxjs';
 import { NotifyPosition } from './notify-position.type';
 import { NotifyType } from './notify.type';
 
@@ -9,6 +10,7 @@ import { NotifyType } from './notify.type';
   styleUrls: ['./ngx-notify.css', './styles/positions.css', './styles/colors.css'],
 })
 export class NgxNotify {
+  close$ = new Subject<void>();
   message = input<string>('');
   type = input<NotifyType>('info');
   position = input<NotifyPosition>('top-right');
@@ -32,6 +34,10 @@ export class NgxNotify {
     return `${this.type()} ${this.position()}`;
   });
   
+  close() {
+    this.close$.next();
+    this.close$.complete();
+  }
   
 
 }
