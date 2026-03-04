@@ -1,8 +1,6 @@
 <div [class]="cssClass()">
   @if(withIcon()) {
-    <div class="notify-icon">
-      {{ icon() }}
-    </div>
+    <gsm-notify-icon class="notify-icon" [type]="type()" />
   }
   @if(withCloseButton()) {
     <button class="notify-close" (click)="close()">X</button>

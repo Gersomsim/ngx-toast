@@ -1,0 +1,121 @@
+/* ==========================================================
+   ngx-notify — Icon Styles & Animations
+
+   Color:     var(--notify-accent) heredado del padre (.notify.type)
+   Selector:  :host(.type) para animar sin cruzar el component boundary
+
+   Animaciones por tipo:
+     info    → pulse suave e infinito sobre el SVG completo
+     success → dibuja el círculo (stroke-dashoffset) luego el checkmark
+     warning → wobble rotacional (una vez)
+     error   → shake horizontal (una vez)
+
+   Tiempos de delay: permiten que la animación de entrada del notify
+   termine antes de que empiece la animación del icono.
+   ========================================================== */
+
+/* --- Base SVG -------------------------------------------- */
+.notify-icon-svg {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: var(--notify-accent, currentColor);
+  overflow: visible; /* permite que shake/wobble no se recorte */
+}
+
+/* ============================================================
+   INFO — pulse suave e infinito
+   ============================================================ */
+
+@keyframes icon-info-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.12); opacity: 0.75; }
+}
+
+:host(.info) .notify-icon-svg {
+  animation: icon-info-pulse 2.4s ease-in-out infinite;
+  animation-delay: 400ms;
+  transform-origin: center;
+}
+
+/* ============================================================
+   SUCCESS — círculo se dibuja, luego aparece el checkmark
+
+   Círculo: stroke-dasharray = 2π × r = 2π × 10 ≈ 62.83
+   Inicia en la posición 12 en punto (rotate -90deg en keyframe).
+
+   Checkmark (polyline 9,12 → 11,14 → 15,10):
+     Segmento 1: √((11-9)² + (14-12)²) ≈ 2.83
+     Segmento 2: √((15-11)² + (10-14)²) ≈ 5.66
+     Total ≈ 8.49 → usamos 9 de margen
+   ============================================================ */
+
+@keyframes icon-success-circle {
+  from {
+    stroke-dashoffset: 63;
+    transform: rotate(-90deg); /* empieza desde las 12 */
+  }
+  to {
+    stroke-dashoffset: 0;
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes icon-success-check {
+  from { stroke-dashoffset: 9; }
+  to   { stroke-dashoffset: 0; }
+}
+
+:host(.success) .icon-circle {
+  stroke-dasharray: 63;
+  stroke-dashoffset: 63;
+  transform-origin: 12px 12px; /* centro del círculo en el viewBox */
+  animation: icon-success-circle 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 150ms;
+}
+
+:host(.success) .icon-check {
+  stroke-dasharray: 9;
+  stroke-dashoffset: 9;
+  animation: icon-success-check 260ms ease-out forwards;
+  animation-delay: 520ms; /* empieza cuando el círculo termina */
+}
+
+/* ============================================================
+   WARNING — wobble rotacional (una sola vez)
+   transform-origin en la base del triángulo para efecto natural.
+   ============================================================ */
+
+@keyframes icon-warning-wobble {
+  0%,  100% { transform: rotate(0deg); }
+  20%        { transform: rotate(-9deg); }
+  40%        { transform: rotate(9deg); }
+  60%        { transform: rotate(-5deg); }
+  80%        { transform: rotate(5deg); }
+}
+
+:host(.warning) .notify-icon-svg {
+  animation: icon-warning-wobble 560ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 1;
+  animation-delay: 280ms;
+  transform-origin: center bottom;
+}
+
+/* ============================================================
+   ERROR — shake horizontal (una sola vez)
+   Decreasing amplitude: da sensación de amortiguación.
+   ============================================================ */
+
+@keyframes icon-error-shake {
+  0%,  100% { transform: translateX(0); }
+  15%        { transform: translateX(-3.5px); }
+  30%        { transform: translateX(3.5px); }
+  45%        { transform: translateX(-2.5px); }
+  60%        { transform: translateX(2.5px); }
+  75%        { transform: translateX(-1.5px); }
+  90%        { transform: translateX(1.5px); }
+}
+
+:host(.error) .notify-icon-svg {
+  animation: icon-error-shake 440ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 1;
+  animation-delay: 280ms;
+}

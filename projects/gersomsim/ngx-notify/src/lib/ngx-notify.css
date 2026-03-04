@@ -42,21 +42,14 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.5' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
 }
 
-/* --- Icono (order: 0 — segundo visual) ------------------- */
+/* --- Icono (gsm-notify-icon — order: 0, segundo visual) -- */
 /*
- * El texto placeholder (I / S / W / E) se oculta con font-size: 0.
- * El SVG se inyecta como background-image según la clase de tipo.
+ * El tamaño y color del SVG se definen dentro de icons.css.
+ * Aquí solo se gestiona el layout dentro del flex container.
  */
 .notify-icon {
   flex-shrink: 0;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-top: 0.0625rem; /* alineación óptica con primera línea de texto */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-size: 0;
-  color: transparent;
+  margin-top: 0.0625rem; /* alineación óptica con cap-height del título */
 }
 
 /* --- Contenido  --------------- */

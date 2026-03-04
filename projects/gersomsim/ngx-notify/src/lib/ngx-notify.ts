@@ -1,8 +1,7 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { NotifyPosition } from './notify-position.type';
-import { NotifyType } from './notify.type';
-import { AnimationType } from './types/animation.type';
+import { NgxNotifyIcon } from './ngx-notify-icon/ngx-notify-icon';
+import { AnimationType, NotifyPosition, NotifyType } from './types';
 
 /* Duración de las animaciones de salida (ms).
  * Debe coincidir con los valores definidos en animations.css */
@@ -15,7 +14,7 @@ const EXIT_DURATION: Record<AnimationType, number> = {
 
 @Component({
   selector: 'gsm-ngx-notify',
-  imports: [],
+  imports: [NgxNotifyIcon],
   templateUrl: `./ngx-notify.html`,
   styleUrls: [
     './ngx-notify.css',
@@ -36,15 +35,6 @@ export class NgxNotify {
   withCloseButton = input<boolean>(true);
 
   private closing = signal(false);
-
-  icon = computed(() => {
-    switch (this.type()) {
-      case 'info':    return 'I';
-      case 'success': return 'S';
-      case 'warning': return 'W';
-      case 'error':   return 'E';
-    }
-  });
 
   cssClass = computed(() => {
     const exit = this.closing() ? 'notify--exit' : '';
