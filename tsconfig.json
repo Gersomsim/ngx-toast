@@ -3,6 +3,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@gersomsim/ngx-toast": [
+        "./dist/gersomsim/ngx-toast"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -21,5 +26,13 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/gersomsim/ngx-toast/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/gersomsim/ngx-toast/tsconfig.spec.json"
+    }
+  ]
 }
