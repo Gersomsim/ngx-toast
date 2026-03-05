@@ -1,6 +1,6 @@
 // ngx-notify.facade.ts
 import { inject, Injector, provideAppInitializer } from '@angular/core';
-import { BtnColors, ColorConfig, ConfirmConfig, ConfigNotify, NgxNotifyConfig } from '../interfaces';
+import { BtnColors, ColorConfig, ConfigNotify, ConfirmConfig, NgxNotifyConfig } from '../interfaces';
 import { NotifyServiceInternal } from '../services/notify-internal.service';
 import { NotifyPosition, NotifyType } from '../types';
 
@@ -107,8 +107,6 @@ export class NgxNotify {
   }
 
   static setColors(colors: Partial<BtnColors & ColorConfig>): void {
-    console.log(colors);
-    
     this.ngxColors = { ...this.ngxColors, ...colors };
   }
 
@@ -116,8 +114,6 @@ export class NgxNotify {
    * Actualiza la configuración por defecto global
    */
   static setDefaultConfig(config: Partial<ConfigNotify>): void {
-    console.log(config);
-    
     this.defaultConfig = { ...this.defaultConfig, ...config };
     
     if (this.instance) {
