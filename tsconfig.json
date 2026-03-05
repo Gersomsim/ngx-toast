@@ -32,12 +32,6 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/gersomsim/ngx-toast/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/gersomsim/ngx-toast/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/showcase/tsconfig.app.json"
     },
     {
