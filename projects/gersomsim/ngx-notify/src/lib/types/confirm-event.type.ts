@@ -1,0 +1,1 @@
+export type ConfirmEventType = 'close' | 'cancel' | 'confirm' | 'backdropClick';

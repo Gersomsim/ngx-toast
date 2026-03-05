@@ -1,0 +1,318 @@
+/* ==========================================================
+   ngx-confirm — Base Styles
+
+   Intent:    usuario a punto de tomar una decisión irreversible.
+              El diálogo debe sentirse deliberado y autoritario.
+   Backdrop:  rgba(15,23,42,0.6) — azul-negro de pausa (no negro puro
+              que se siente como crash; azul-negro se siente como stop)
+   Card:      blanca, elevada con sombra en 3 capas — presencia modal
+   Confirm:   #111827 near-black — peso y decisión, no acción positiva
+   Cancel:    ghost outlined — "puedes salir de este momento"
+   Firma:     sombra triple que levanta la card por encima del backdrop
+   Espaciado: base 0.25rem, escala × 4 (1rem), × 5 (1.25rem), × 6 (1.5rem)
+   ========================================================== */
+
+/* --- Backdrop -------------------------------------------- */
+/*
+ * inset: 0 cubre toda la pantalla.
+ * z-index: 10000 — por encima de los contenedores de notify (9999).
+ * padding: 1rem evita que la card toque los bordes en móvil.
+ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+
+/* --- Card ------------------------------------------------ */
+/*
+ * width: 100% + min/max hacen la card responsive:
+ *   < 320px de pantalla → la card se adapta al padding del backdrop
+ *   320px–480px         → ocupa todo el ancho disponible
+ *   > 480px             → se queda en 480px, centrada
+ *
+ * overflow: hidden recorta los hijos en la border-radius.
+ * Sombra en 3 capas: profundidad + definición + base sutil.
+ */
+.confirm-card {
+  width: 100%;
+  min-width: 320px;
+  max-width: 480px;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  font-family: inherit;
+  font-size: 0.875rem;
+  overflow: hidden;
+}
+
+/* --- Header --------------------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+
+/* --- Icon wrapper --------------------------------------- */
+/*
+ * Círculo tintado con el color semántico del tipo al 10% de opacidad.
+ * El icono SVG vive dentro — tamaño controlado por --notify-icon-size
+ * (1.75rem vs 1.25rem de las notificaciones).
+ *
+ * [class]="'icon ' + icon()" en el template añade la clase del tipo
+ * (icon.info, icon.success...) que activa el color correcto.
+ *
+ * --notify-accent hereda hacia gsm-notify-icon → .notify-icon-svg { stroke }
+ */
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  --notify-icon-size: 1.75rem;
+}
+
+.icon.info {
+  --notify-accent: #0ea5e9;
+  background-color: rgba(14, 165, 233, 0.1);
+}
+
+.icon.success {
+  --notify-accent: #22c55e;
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+.icon.warning {
+  --notify-accent: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.icon.error {
+  --notify-accent: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* --- Título --------------------------------------------- */
+/*
+ * flex: 1 empuja el botón de cierre al extremo derecho.
+ * letter-spacing negativo en títulos con font-weight 600+
+ * aprieta el espacio óptico entre caracteres.
+ */
+.title {
+  flex: 1;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* --- Botón cerrar --------------------------------------- */
+.close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.close:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+/* --- Cuerpo --------------------------------------------- */
+.body {
+  padding: 0 1.5rem 1.25rem;
+}
+
+.message {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* --- Footer --------------------------------------------- */
+/*
+ * flex-wrap: wrap permite que .timer-progress-bar (flex: 0 0 100%)
+ * ocupe una fila completa por debajo de los botones.
+ */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/*
+ * Cuando el footer solo contiene la barra (sin botones),
+ * se convierte en un strip pegado a la base de la card.
+ * overflow: hidden + border-radius en .confirm-card recortan las esquinas.
+ */
+.footer:has(.timer-progress-bar:only-child) {
+  padding: 0;
+  border-top: none;
+}
+
+/* --- Timer Progress Bar --------------------------------- */
+/*
+ * Duración: var(--confirm-timer) pasada inline desde el template:
+ *   [style.--confirm-timer]="timer() + 'ms'"
+ * Fallback: 5000ms (valor por defecto del input timer).
+ *
+ * Técnica: scaleX(1 → 0) sobre un ::before posicionado absoluto.
+ * scaleX es GPU-accelerated — no causa reflow ni repaint del layout.
+ * transform-origin: left center — la barra se consume de derecha a izquierda.
+ *
+ * Color: #111827 — el mismo peso visual del botón Confirmar.
+ * La barra comparte la autoridad de la acción que está a punto de ejecutarse.
+ *
+ * Dos modos:
+ *   Con botones   → pill redondeada de 3px, dentro del padding del footer.
+ *   Solo barra    → strip flush de 4px, sin padding, pegada a la base de la card.
+ */
+.timer-progress-bar {
+  flex: 0 0 100%; /* fila exclusiva en el flex, no crece ni encoge */
+  height: 3px;
+  border-radius: 9999px;
+  background-color: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Solo barra sin botones → strip flush en la base de la card */
+.timer-progress-bar:only-child {
+  height: 4px;
+  border-radius: 0;
+}
+
+/* Fill que se consume */
+.timer-progress-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #111827;
+  transform-origin: left center;
+  animation: confirm-timer-progress var(--confirm-timer, 5000ms) linear forwards;
+}
+
+@keyframes confirm-timer-progress {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* ============================================================
+   Animaciones de entrada / salida
+   Reutiliza los keyframes notify-fade-in / notify-fade-out
+   definidos en styles/animations.css (incluido en styleUrls).
+
+   La animación se aplica sobre .backdrop — anima el overlay y
+   la card juntos como una unidad visual coherente.
+
+   Entrada: 280ms, easing spring suave
+   Salida:  180ms, aceleración — debe coincidir con EXIT_DURATION en el TS
+   ============================================================ */
+
+/* --- Fade in (al montar el componente) ------------------- */
+.backdrop {
+  animation: notify-fade-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- Fade out (close() añade .confirm--exit al backdrop) - */
+.backdrop.confirm--exit {
+  animation: notify-fade-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+/* --- Botones base --------------------------------------- */
+.cancel,
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.125rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+/* --- Cancelar — ghost, peso bajo ------------------------ */
+/*
+ * Outlined sin relleno: "puedes salir de este momento".
+ * Borde sutil, texto oscuro neutro. No compite con Confirmar.
+ */
+.cancel {
+  background-color: transparent;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+
+.cancel:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.cancel:active {
+  background-color: #f3f4f6;
+}
+
+.cancel:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+/* --- Confirmar — near-black, autoritario ---------------- */
+/*
+ * #111827 en vez del azul genérico: comunica peso y decisión.
+ * Cuando la acción es seria, el color serio la representa.
+ * El hover aclara ligeramente — retroalimentación sin perder autoridad.
+ */
+.confirm {
+  background-color: #111827;
+  border-color: #111827;
+  color: #ffffff;
+}
+
+.confirm:hover {
+  background-color: #1f2937;
+  border-color: #1f2937;
+}
+
+.confirm:active {
+  background-color: #374151;
+  border-color: #374151;
+}
+
+.confirm:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}

@@ -1,0 +1,41 @@
+<div [class]="backdropClass()" (click)="close('backdropClick')">
+    <div class="confirm-card">
+        <div class="header">
+          @if (icon(); as icon) {
+            <div [class]="'icon ' + icon">
+              <gsm-notify-icon [type]="icon " />
+            </div>
+          }
+            <div class="title">
+                {{ title() }}
+            </div>
+            <div class="close" (click)="close('close')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <div class="body">
+            <div class="message">
+                {{ message() }}
+            </div>
+        </div>
+        @if (showCancelButton() || showConfirmButton() || showTimerProgressBar()) {
+        <div class="footer">
+            @if (showCancelButton()) {
+                <button class="cancel" (click)="close('cancel')">
+                    {{ cancelText() }}
+                </button>
+            }
+            @if (showConfirmButton()) {
+                <button class="confirm" (click)="close('confirm')">
+                    {{ confirmText() }}
+                </button>
+            }
+            @if (showTimerProgressBar() && (!showCancelButton() && !showConfirmButton())) {
+                <div class="timer-progress-bar" [style.--confirm-timer]="timer() + 'ms'"></div>
+            }
+        </div>
+        }
+    </div>
+</div>

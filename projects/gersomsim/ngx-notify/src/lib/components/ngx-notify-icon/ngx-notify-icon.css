@@ -15,10 +15,16 @@
    ========================================================== */
 
 /* --- Base SVG -------------------------------------------- */
+/*
+ * --notify-icon-size: controla el tamaño del SVG.
+ * Valor por defecto: 1.25rem (notificaciones).
+ * Cualquier padre puede sobreescribirlo, ej:
+ *   .icon { --notify-icon-size: 1.75rem; }  ← confirm dialog
+ */
 .notify-icon-svg {
   display: block;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: var(--notify-icon-size, 1.25rem);
+  height: var(--notify-icon-size, 1.25rem);
   stroke: var(--notify-accent, currentColor);
   overflow: visible; /* permite que shake/wobble no se recorte */
 }

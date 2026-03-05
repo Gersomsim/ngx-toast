@@ -1,4 +1,5 @@
 import { NotifyType } from "../types";
+import { ConfirmEvent } from "./confirm-event.interface";
 
 export interface ConfirmConfig {
     title?: string;
@@ -11,10 +12,10 @@ export interface ConfirmConfig {
     // icon
     icon?: NotifyType;
     // actions
-    onConfirm?: () => void;
-    onCancel?: () => void;
+    callback?: (event: ConfirmEvent) => void;
     // settings
     timer?: number;
     showTimerProgressBar?: boolean;
     showCloseButton?: boolean;
+    closeBackdropClick?: boolean;
 }

@@ -6,8 +6,9 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
+import { NgxConfirm } from '../public-api';
 import { NgxNotify, NgxNotifyContainer } from './components';
-import { ConfigNotify } from './interfaces';
+import { ConfigNotify, ConfirmConfig, ConfirmEvent } from './interfaces';
 import { NotifyPosition } from './types';
 
 @Injectable({ providedIn: 'root' })
@@ -41,6 +42,42 @@ export class NotifyService {
     setTimeout(() => {
       if (!isClosed) compRef.instance.close();
     }, timeOnScreen);
+  }
+
+  confirm(config: Partial<ConfirmConfig>) {
+
+     const compRef = createComponent(NgxConfirm, {
+      environmentInjector: this.injector,
+    });
+
+    compRef.setInput('title',           config.title);
+    compRef.setInput('message',         config.message);
+    compRef.setInput('icon',            config.icon);
+    compRef.setInput('showCancelButton', config.showCancelButton);
+    compRef.setInput('cancelText', config.cancelText ?? 'Cancelar');
+    compRef.setInput('showConfirmButton', config.showConfirmButton);
+    compRef.setInput('confirmText', config.confirmText ?? 'Aceptar');
+    compRef.setInput('showTimerProgressBar', config.showTimerProgressBar);
+    compRef.setInput('timer', config.timer);
+    compRef.setInput('closeBackdropClick', config.closeBackdropClick);
+    this.appRef.attachView(compRef.hostView);
+    document.body.appendChild(compRef.location.nativeElement);
+
+    let isClosed = false;
+
+    compRef.instance.close$
+      .subscribe((event: ConfirmEvent) => {
+        isClosed = true;
+        config.callback?.(event);
+        this.destroyConfirm(compRef);
+    });
+
+    if(!config.showConfirmButton && !config.showCancelButton) {
+      const timeOnScreen = config.timer ?? 5000;
+      setTimeout(() => {
+        if (!isClosed) compRef.instance.close('close');
+      }, timeOnScreen);
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -90,5 +127,12 @@ export class NotifyService {
         if (ref === container) this.containers.delete(pos);
       });
     }
+  }
+
+  private destroyConfirm(
+    compRef: ComponentRef<NgxConfirm>,
+  ) {
+    this.appRef.detachView(compRef.hostView);
+    compRef.destroy();
   }
 }
