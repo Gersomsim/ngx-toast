@@ -1,5 +1,5 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { NotifyPosition } from '../types';
+import { NotifyPosition } from '../../types';
 
 @Component({
   selector: 'gsm-notify-container',

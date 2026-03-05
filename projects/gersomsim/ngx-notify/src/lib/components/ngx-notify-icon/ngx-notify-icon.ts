@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { NotifyType } from '../types/notify.type';
+import { NotifyType } from '../../types';
 
 @Component({
   selector: 'gsm-notify-icon',

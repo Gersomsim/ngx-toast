@@ -1,7 +1,7 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { NgxNotifyIcon } from './ngx-notify-icon/ngx-notify-icon';
-import { AnimationType, NotifyPosition, NotifyType } from './types';
+import { AnimationType, NotifyPosition, NotifyType } from '../../types';
+import { NgxNotifyIcon } from '../ngx-notify-icon/ngx-notify-icon';
 
 /* Duración de las animaciones de salida (ms).
  * Debe coincidir con los valores definidos en animations.css */
@@ -18,8 +18,8 @@ const EXIT_DURATION: Record<AnimationType, number> = {
   templateUrl: `./ngx-notify.html`,
   styleUrls: [
     './ngx-notify.css',
-    './styles/colors.css',
-    './styles/animations.css',
+    '../../styles/colors.css',
+    '../../styles/animations.css',
   ],
 })
 export class NgxNotify {

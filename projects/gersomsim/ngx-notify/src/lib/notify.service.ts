@@ -6,9 +6,8 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
+import { NgxNotify, NgxNotifyContainer } from './components';
 import { ConfigNotify } from './config-notity.interface';
-import { NgxNotify } from './ngx-notify';
-import { NgxNotifyContainer } from './ngx-notify-container/ngx-notify-container';
 import { NotifyPosition } from './types';
 
 @Injectable({ providedIn: 'root' })
