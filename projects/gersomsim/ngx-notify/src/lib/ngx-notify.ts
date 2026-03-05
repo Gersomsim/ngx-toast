@@ -18,7 +18,6 @@ const EXIT_DURATION: Record<AnimationType, number> = {
   templateUrl: `./ngx-notify.html`,
   styleUrls: [
     './ngx-notify.css',
-    './styles/positions.css',
     './styles/colors.css',
     './styles/animations.css',
   ],

@@ -1,0 +1,88 @@
+/* ==========================================================
+   ngx-notify — Container Positions  (CSS global)
+
+   Este archivo lo carga NgxNotifyContainer con ViewEncapsulation.None,
+   por lo que sus reglas son CSS global y aplican sobre el host element
+   gsm-notify-container que el servicio crea en el DOM.
+
+   Estrategia de apilado:
+     top-*    → flex-direction: column          (nuevas notif. abajo del stack)
+     bottom-* → flex-direction: column-reverse  (nuevas notif. cerca del borde)
+
+   Las posiciones centradas usan la prop. CSS 'translate' para no
+   interferir con el 'transform' que usan las animaciones de las notif.
+   ========================================================== */
+
+/* --- Base container --------------------------------------- */
+.notify-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* --- Top ------------------------------------------------- */
+.notify-container.top-right {
+  top: 1rem;
+  right: 1rem;
+  align-items: flex-end;
+}
+
+.notify-container.top-left {
+  top: 1rem;
+  left: 1rem;
+  align-items: flex-start;
+}
+
+.notify-container.top-center {
+  top: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  align-items: center;
+}
+
+/* --- Bottom (column-reverse para apilar desde el borde) -- */
+.notify-container.bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.notify-container.bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+.notify-container.bottom-center {
+  bottom: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+/* --- Center ---------------------------------------------- */
+.notify-container.center-right {
+  top: 50%;
+  right: 1rem;
+  translate: 0 -50%;
+  align-items: flex-end;
+}
+
+.notify-container.center-left {
+  top: 50%;
+  left: 1rem;
+  translate: 0 -50%;
+  align-items: flex-start;
+}
+
+.notify-container.center {
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  align-items: center;
+}
