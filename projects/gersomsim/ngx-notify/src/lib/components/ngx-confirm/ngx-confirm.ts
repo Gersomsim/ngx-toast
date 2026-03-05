@@ -1,7 +1,6 @@
 import { Component, computed, input, signal } from "@angular/core";
 import { Subject } from "rxjs";
-import { ColorConfig } from "../../interfaces";
-import { BtnColors } from "../../interfaces/btn-color.interface";
+import { BtnColors, ColorConfig } from "../../interfaces";
 import { ConfirmEvent } from "../../interfaces/confirm-event.interface";
 import { ConfirmEventType, NotifyType } from "../../types";
 import { NgxNotifyIcon } from "../ngx-notify-icon/ngx-notify-icon";
@@ -27,7 +26,7 @@ export class NgxConfirm {
     showCancelButton  = input<boolean>(false);
     cancelText        = input<string>('Cancel');
     showConfirmButton = input<boolean>(false);
-    confirmText       = input<string>('Aceptar');
+    confirmText       = input<string>('Confirm');
     showTimerProgressBar = input<boolean>(true);
     timer             = input<number>(5000);
     showCloseButton   = input<boolean>(true);

@@ -1,6 +1,7 @@
 <div [class]="backdropClass()" (click)="close('backdropClick')">
     <div class="confirm-card"
         [style.background-color]="colors().mainBgColor"
+        (click)="$event.stopPropagation()"
     >
         <div class="header">
           @if (icon(); as icon) {
