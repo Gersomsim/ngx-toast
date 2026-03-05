@@ -3,6 +3,6 @@
  */
 
 
-export * from './lib/config-notity.interface';
+export * from './lib/interfaces';
 export * from './lib/notify.service';
 
