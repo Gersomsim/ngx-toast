@@ -1,6 +1,6 @@
 // ngx-notify.facade.ts
 import { inject, Injector, provideAppInitializer } from '@angular/core';
-import { BtnColors, ColorConfig, ConfigNotify, NgxNotifyConfig } from '../interfaces';
+import { BtnColors, ColorConfig, ConfirmConfig, ConfigNotify, NgxNotifyConfig } from '../interfaces';
 import { NotifyServiceInternal } from '../services/notify-internal.service';
 import { NotifyPosition, NotifyType } from '../types';
 
@@ -226,6 +226,11 @@ export class NgxNotify {
   // ---------------------------------------------------------------------------
   // Métodos de control de notificaciones
   // ---------------------------------------------------------------------------
+
+  static confirm(config: Partial<ConfirmConfig>): void {
+    if (!this.checkInitialized()) return;
+    this.instance.confirm(config);
+  }
 
   /**
    * Cierra todas las notificaciones activas

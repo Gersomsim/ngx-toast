@@ -6,9 +6,9 @@ import {
   EnvironmentInjector,
   Injector
 } from '@angular/core';
-import { NgxNotify } from '../components';
+import { NgxConfirm, NgxNotify } from '../components';
 import { NgxNotifyContainer } from '../components/ngx-notify-container/ngx-notify-container';
-import { BtnColors, ColorConfig, ConfigNotify } from '../interfaces';
+import { BtnColors, ColorConfig, ConfirmConfig, ConfirmEvent, ConfigNotify } from '../interfaces';
 import { NotifyPosition } from '../types';
 
 type colors = Partial<BtnColors & ColorConfig>
@@ -98,6 +98,61 @@ export class NotifyServiceInternal {
     setTimeout(() => {
       if (!isClosed) compRef.instance.close();
     }, timeOnScreen);
+  }
+
+  confirm(config: Partial<ConfirmConfig>): void {
+    if (typeof document === 'undefined') return;
+
+    const compRef = createComponent(NgxConfirm, {
+      environmentInjector: this.injector,
+    });
+
+    compRef.setInput('title',                config.title);
+    compRef.setInput('message',              config.message);
+    compRef.setInput('icon',                 config.icon);
+    compRef.setInput('showCancelButton',     config.showCancelButton  ?? false);
+    compRef.setInput('cancelText',           config.cancelText        ?? 'Cancel');
+    compRef.setInput('showConfirmButton',    config.showConfirmButton ?? false);
+    compRef.setInput('confirmText',          config.confirmText       ?? 'Confirm');
+    compRef.setInput('showTimerProgressBar', config.showTimerProgressBar ?? true);
+    compRef.setInput('timer',                config.timer             ?? 5000);
+    compRef.setInput('showCloseButton',      config.showCloseButton   ?? true);
+    compRef.setInput('closeBackdropClick',   config.closeBackdropClick ?? true);
+
+    if (this.ngxColors) {
+      compRef.setInput('colorsConfig', {
+        successColor:  this.ngxColors.successColor,
+        errorColor:    this.ngxColors.errorColor,
+        warningColor:  this.ngxColors.warningColor,
+        infoColor:     this.ngxColors.infoColor,
+        mainBgColor:   this.ngxColors.mainBgColor,
+        mainTextColor: this.ngxColors.mainTextColor,
+      });
+      compRef.setInput('btnColorsConfig', {
+        confirmBtnColor:     this.ngxColors.confirmBtnColor,
+        confirmBtnTextColor: this.ngxColors.confirmBtnTextColor,
+        cancelBtnColor:      this.ngxColors.cancelBtnColor,
+        cancelBtnTextColor:  this.ngxColors.cancelBtnTextColor,
+      });
+    }
+
+    this.appRef.attachView(compRef.hostView);
+    document.body.appendChild(compRef.location.nativeElement);
+
+    let isClosed = false;
+
+    compRef.instance.close$.subscribe((event: ConfirmEvent) => {
+      isClosed = true;
+      config.callback?.(event);
+      this.destroyConfirm(compRef);
+    });
+
+    if (!config.showConfirmButton && !config.showCancelButton) {
+      const timeOnScreen = config.timer ?? 5000;
+      setTimeout(() => {
+        if (!isClosed) compRef.instance.close('close');
+      }, timeOnScreen);
+    }
   }
 
   /**
@@ -238,6 +293,11 @@ export class NotifyServiceInternal {
         this.destroyContainer(position);
       }
     }
+  }
+
+  private destroyConfirm(compRef: ComponentRef<NgxConfirm>): void {
+    this.appRef.detachView(compRef.hostView);
+    compRef.destroy();
   }
 
   /**
