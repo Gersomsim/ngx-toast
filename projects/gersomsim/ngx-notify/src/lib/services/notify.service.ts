@@ -6,28 +6,33 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
-import { NgxConfirm } from '../public-api';
-import { NgxNotify, NgxNotifyContainer } from './components';
-import { ConfigNotify, ConfirmConfig, ConfirmEvent } from './interfaces';
-import { NotifyPosition } from './types';
+import { NgxNotify as NgxNotifyComponent, NgxNotifyContainer } from '../components';
+import { ConfigNotify } from '../interfaces';
+import { NotifyPosition } from '../types';
 
 @Injectable({ providedIn: 'root' })
-export class NotifyService {
+export class NgxNotifyService {
   private appRef  = inject(ApplicationRef);
   private injector = inject(EnvironmentInjector);
 
-  /**
-   * Un contenedor por posición.
-   * Se crea la primera vez que se muestra una notificación en esa posición
-   * y se destruye cuando queda vacío.
-   */
   private containers = new Map<NotifyPosition, ComponentRef<NgxNotifyContainer>>();
 
-  show(config: ConfigNotify) {
-    const position = config.position ?? 'top-right';
+  private defaultNotify: ConfigNotify = {
+    message: '',
+    type: 'info',
+    position: 'top-right',
+    icon: true,
+    closeButton: true,
+    animation: 'fade',
+    duration: 3000,
+  }
+
+  show(config: Partial<ConfigNotify>) {
+    const configNotify: ConfigNotify = { ...this.defaultNotify, ...config };
+    const position = configNotify.position ?? 'top-right';
 
     const container = this.getOrCreateContainer(position);
-    const compRef   = this.createNotification(config);
+    const compRef   = this.createNotification(configNotify);
 
     // Adjuntar la notificación como hijo DOM del contenedor
     container.location.nativeElement.appendChild(compRef.location.nativeElement);
@@ -44,44 +49,6 @@ export class NotifyService {
     }, timeOnScreen);
   }
 
-  confirm(config: Partial<ConfirmConfig>) {
-
-     const compRef = createComponent(NgxConfirm, {
-      environmentInjector: this.injector,
-    });
-
-    compRef.setInput('title',           config.title);
-    compRef.setInput('message',         config.message);
-    compRef.setInput('icon',            config.icon);
-    compRef.setInput('showCancelButton', config.showCancelButton);
-    compRef.setInput('cancelText', config.cancelText ?? 'Cancelar');
-    compRef.setInput('showConfirmButton', config.showConfirmButton);
-    compRef.setInput('confirmText', config.confirmText ?? 'Aceptar');
-    compRef.setInput('showTimerProgressBar', config.showTimerProgressBar);
-    compRef.setInput('timer', config.timer);
-    compRef.setInput('closeBackdropClick', config.closeBackdropClick);
-    this.appRef.attachView(compRef.hostView);
-    document.body.appendChild(compRef.location.nativeElement);
-
-    let isClosed = false;
-
-    compRef.instance.close$
-      .subscribe((event: ConfirmEvent) => {
-        isClosed = true;
-        config.callback?.(event);
-        this.destroyConfirm(compRef);
-    });
-
-    if(!config.showConfirmButton && !config.showCancelButton) {
-      const timeOnScreen = config.timer ?? 5000;
-      setTimeout(() => {
-        if (!isClosed) compRef.instance.close('close');
-      }, timeOnScreen);
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-
   private getOrCreateContainer(position: NotifyPosition): ComponentRef<NgxNotifyContainer> {
     if (!this.containers.has(position)) {
       const containerRef = createComponent(NgxNotifyContainer, {
@@ -95,8 +62,8 @@ export class NotifyService {
     return this.containers.get(position)!;
   }
 
-  private createNotification(config: ConfigNotify): ComponentRef<NgxNotify> {
-    const compRef = createComponent(NgxNotify, {
+  private createNotification(config: ConfigNotify): ComponentRef<NgxNotifyComponent> {
+    const compRef = createComponent(NgxNotifyComponent, {
       environmentInjector: this.injector,
     });
     compRef.setInput('message',         config.message);
@@ -111,7 +78,7 @@ export class NotifyService {
   }
 
   private destroyNotification(
-    compRef: ComponentRef<NgxNotify>,
+    compRef: ComponentRef<NgxNotifyComponent>,
     container: ComponentRef<NgxNotifyContainer>,
     onClose?: () => void,
   ) {
@@ -127,12 +94,5 @@ export class NotifyService {
         if (ref === container) this.containers.delete(pos);
       });
     }
-  }
-
-  private destroyConfirm(
-    compRef: ComponentRef<NgxConfirm>,
-  ) {
-    this.appRef.detachView(compRef.hostView);
-    compRef.destroy();
   }
 }

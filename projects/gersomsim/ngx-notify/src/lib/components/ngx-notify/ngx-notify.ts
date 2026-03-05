@@ -1,5 +1,6 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ColorConfig } from '../../interfaces';
 import { AnimationType, NotifyPosition, NotifyType } from '../../types';
 import { NgxNotifyIcon } from '../ngx-notify-icon/ngx-notify-icon';
 
@@ -18,7 +19,6 @@ const EXIT_DURATION: Record<AnimationType, number> = {
   templateUrl: `./ngx-notify.html`,
   styleUrls: [
     './ngx-notify.css',
-    '../../styles/colors.css',
     '../../styles/animations.css',
   ],
 })
@@ -33,11 +33,25 @@ export class NgxNotify {
   withIcon        = input<boolean>(true);
   withCloseButton = input<boolean>(true);
 
+  colorsConfig = input<ColorConfig>({});
+
+  colors = computed(() => {
+    return {
+      success: this.colorsConfig().successColor ?? '#22c55e',
+      error: this.colorsConfig().errorColor ?? '#ef4444',
+      warning: this.colorsConfig().warningColor ?? '#f59e0b',
+      info: this.colorsConfig().infoColor ?? '#0ea5e9',
+      mainBgColor: this.colorsConfig().mainBgColor ?? '#fff',
+      mainTextColor: this.colorsConfig().mainTextColor ?? '#40444dff'
+    }
+  });
+
+
   private closing = signal(false);
 
   cssClass = computed(() => {
     const exit = this.closing() ? 'notify--exit' : '';
-    return `notify ${this.type()} ${this.position()} anim-${this.animation()} ${exit}`.trim();
+    return `notify ${this.position()} anim-${this.animation()} ${exit}`.trim();
   });
 
   close() {

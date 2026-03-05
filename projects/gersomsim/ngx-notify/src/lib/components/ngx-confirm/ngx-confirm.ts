@@ -1,5 +1,7 @@
 import { Component, computed, input, signal } from "@angular/core";
 import { Subject } from "rxjs";
+import { ColorConfig } from "../../interfaces";
+import { BtnColors } from "../../interfaces/btn-color.interface";
 import { ConfirmEvent } from "../../interfaces/confirm-event.interface";
 import { ConfirmEventType, NotifyType } from "../../types";
 import { NgxNotifyIcon } from "../ngx-notify-icon/ngx-notify-icon";
@@ -30,6 +32,33 @@ export class NgxConfirm {
     timer             = input<number>(5000);
     showCloseButton   = input<boolean>(true);
     closeBackdropClick = input<boolean>(true);
+    colorsConfig = input<ColorConfig>({});
+
+    colors = computed(() => {
+        return {
+        success: this.colorsConfig().successColor ?? '#22c55e',
+        error: this.colorsConfig().errorColor ?? '#ef4444',
+        warning: this.colorsConfig().warningColor ?? '#f59e0b',
+        info: this.colorsConfig().infoColor ?? '#0ea5e9',
+        mainBgColor: this.colorsConfig().mainBgColor ?? '#fff',
+        mainTextColor: this.colorsConfig().mainTextColor ?? '#40444dff'
+        }   
+    });
+    btnColorsConfig = input<BtnColors>({})
+
+    btnColors = computed(() => {
+        const mainBg = this.colors().mainBgColor;
+        const colorBtnCancel = mainBg === '#fff' ? 'transparent' : '#fff';
+        const colorBtnCancelBorder = mainBg === '#fff' ? '#e5e7eb' : '#fff';
+        return {
+            confirmColor: this.btnColorsConfig().confirmBtnColor ?? '#111827',
+            confirmTextColor: this.btnColorsConfig().confirmBtnTextColor ?? '#ffffff',
+            cancelColor: this.btnColorsConfig().cancelBtnColor ?? colorBtnCancel,
+            cancelBorderColor: this.btnColorsConfig().cancelBtnColor ?? colorBtnCancelBorder,
+            cancelTextColor: this.btnColorsConfig().cancelBtnTextColor ?? '#374151',            
+        }
+    });
+
 
     close$ = new Subject<ConfirmEvent>();
 

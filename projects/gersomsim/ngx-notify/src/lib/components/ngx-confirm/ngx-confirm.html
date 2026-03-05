@@ -1,34 +1,50 @@
 <div [class]="backdropClass()" (click)="close('backdropClick')">
-    <div class="confirm-card">
+    <div class="confirm-card"
+        [style.background-color]="colors().mainBgColor"
+    >
         <div class="header">
           @if (icon(); as icon) {
             <div [class]="'icon ' + icon">
-              <gsm-notify-icon [type]="icon " />
+              <gsm-notify-icon [type]="icon " [color]="colors()[icon]" />
             </div>
           }
-            <div class="title">
+            <div class="title"
+              [style.color]="colors().mainTextColor"
+            >
                 {{ title() }}
             </div>
-            <div class="close" (click)="close('close')">
+            <div class="close" 
+                [style.color]="colors().mainTextColor"
+                (click)="close('close')"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
         </div>
         <div class="body">
-            <div class="message">
+            <div class="message"
+              [style.color]="colors().mainTextColor"
+            >
                 {{ message() }}
             </div>
         </div>
         @if (showCancelButton() || showConfirmButton() || showTimerProgressBar()) {
+            @let colors = btnColors();
         <div class="footer">
             @if (showCancelButton()) {
-                <button class="cancel" (click)="close('cancel')">
+                <button class="cancel" (click)="close('cancel')" 
+                [style.background-color]="colors.cancelColor"
+                [style.border-color]="colors.cancelBorderColor"
+                [style.color]="colors.cancelTextColor">
                     {{ cancelText() }}
                 </button>
             }
             @if (showConfirmButton()) {
-                <button class="confirm" (click)="close('confirm')">
+                <button class="confirm" (click)="close('confirm')" 
+                [style.background-color]="colors.confirmColor"
+                [style.border-color]="colors.confirmColor"
+                [style.color]="colors.confirmTextColor">
                     {{ confirmText() }}
                 </button>
             }

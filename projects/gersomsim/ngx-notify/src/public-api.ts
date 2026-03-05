@@ -2,8 +2,8 @@
  * Public API Surface of ngx-notify
  */
 
-
-export * from './lib/components/ngx-confirm/ngx-confirm';
+export * from './lib/facades/ngx-notify.facade';
 export * from './lib/interfaces';
-export * from './lib/notify.service';
+export * from './lib/services/confirm.service';
+export * from './lib/services/notify.service';
 

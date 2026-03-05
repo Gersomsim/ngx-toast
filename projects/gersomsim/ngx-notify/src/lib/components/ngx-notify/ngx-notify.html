@@ -1,14 +1,19 @@
-<div [class]="cssClass()">
+<div [class]="cssClass()" 
+  [style.border-left-color]="colors()[type()]"
+  [style.background-color]="colors().mainBgColor"
+>
   @if(withIcon()) {
-    <gsm-notify-icon class="notify-icon" [type]="type()" />
+    <gsm-notify-icon class="notify-icon" [type]="type()" [color]="colors()[type()]" />
   }
   @if(withCloseButton()) {
     <button class="notify-close" (click)="close()">X</button>
   }
-  <div class="notify-content">
+  <div class="notify-content"
+  [style.color]="colors().mainTextColor"
+  >
     @if(title()) {
       <p class="notify-title">{{ title() }}</p>
     }
-    <p class="notify-message">{{ message() }}</p>
+    <p class="notify-message" >{{ message() }}</p>
   </div>
 </div>

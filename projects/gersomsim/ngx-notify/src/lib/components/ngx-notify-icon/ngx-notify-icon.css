@@ -25,7 +25,6 @@
   display: block;
   width: var(--notify-icon-size, 1.25rem);
   height: var(--notify-icon-size, 1.25rem);
-  stroke: var(--notify-accent, currentColor);
   overflow: visible; /* permite que shake/wobble no se recorte */
 }
 

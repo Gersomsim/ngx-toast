@@ -11,8 +11,12 @@ import { NotifyType } from '../../types';
    * Esto permite que :host(.success), :host(.error), etc. en icons.css
    * apliquen las animaciones correctas sin cruzar el boundary del componente.
    */
-  host: { '[class]': 'type()' },
+  host: { 
+    '[class]': 'type()', 
+    '[style.stroke]': 'color()' 
+  },
 })
 export class NgxNotifyIcon {
   type = input<NotifyType>('info');
+  color = input<string>('');
 }

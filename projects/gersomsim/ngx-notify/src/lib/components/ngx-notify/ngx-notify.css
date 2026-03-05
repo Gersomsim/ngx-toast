@@ -6,7 +6,6 @@
   min-width: 300px;
   max-width: 380px;
   padding: 0.875rem 1rem;
-  background-color: #ffffff;
   border-radius: 0.5rem;
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.08),
@@ -65,7 +64,6 @@
   margin: 0;
   font-weight: 600;
   font-size: 0.875rem;
-  color: #111827;
   line-height: 1.4;
 }
 
@@ -73,8 +71,8 @@
 .notify-message {
   margin: 0;
   font-size: 0.8125rem;
-  color: #6b7280;
   line-height: 1.5;
+  opacity: 0.8;
 }
 
 
