@@ -2,17 +2,17 @@ import { AnimationType, NotifyPosition } from "../types"
 
 export interface NgxNotifyConfig {
  timer?: number
- toastPosition?: NotifyPosition
- toastBtnClose?: boolean
- toastIcon?: boolean
- toastAnimation?: AnimationType
+ toast: {
+  position?: NotifyPosition
+  closeButton?: boolean
+  icon?: boolean
+  animation?: AnimationType
+ }
  // Configuración de botones de confirmación
- toastColors: {
   successColor?: string
   errorColor?: string
   warningColor?: string
   infoColor?: string
-}
   mainBgColor?: string
   mainTextColor?: string
  confirmBtnColor?: string

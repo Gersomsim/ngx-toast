@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import { NgxNotify } from '../components';
 import { NgxNotifyContainer } from '../components/ngx-notify-container/ngx-notify-container';
-import { ConfigNotify } from '../interfaces';
+import { BtnColors, ColorConfig, ConfigNotify } from '../interfaces';
 import { NotifyPosition } from '../types';
+
+type colors = Partial<BtnColors & ColorConfig>
 
 export class NotifyServiceInternal {
   private appRef: ApplicationRef;
@@ -35,12 +37,18 @@ export class NotifyServiceInternal {
     animation: 'fade'
   };
 
-  constructor(injector: Injector, defaultConfig?: Partial<ConfigNotify>) {
+  private ngxColors: colors = {}
+
+  constructor(injector: Injector, defaultConfig?: Partial<ConfigNotify>, colors?: colors) {
     this.appRef = injector.get(ApplicationRef);
     this.injector = injector.get(EnvironmentInjector);
     
     if (defaultConfig) {
       this.defaultConfig = { ...this.defaultConfig, ...defaultConfig };
+    }
+
+    if (colors) {
+      this.ngxColors = { ...colors };
     }
   }
 
@@ -183,6 +191,17 @@ export class NotifyServiceInternal {
     
     if (config.animation) {
       compRef.setInput('animation', config.animation);
+    }
+
+    if (this.ngxColors) {
+      compRef.setInput('colorsConfig', {
+        successColor: this.ngxColors.successColor,
+        errorColor: this.ngxColors.errorColor,
+        warningColor: this.ngxColors.warningColor,
+        infoColor: this.ngxColors.infoColor,
+        mainBgColor: this.ngxColors.mainBgColor,
+        mainTextColor: this.ngxColors.mainTextColor,
+      });
     }
 
     // Adjuntar a la aplicación

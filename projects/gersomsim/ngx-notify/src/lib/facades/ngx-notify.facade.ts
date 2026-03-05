@@ -1,8 +1,10 @@
 // ngx-notify.facade.ts
 import { inject, Injector, provideAppInitializer } from '@angular/core';
-import { ConfigNotify, NgxNotifyConfig } from '../interfaces';
+import { BtnColors, ColorConfig, ConfigNotify, NgxNotifyConfig } from '../interfaces';
 import { NotifyServiceInternal } from '../services/notify-internal.service';
 import { NotifyPosition, NotifyType } from '../types';
+
+type colors = Partial<BtnColors & ColorConfig>
 
 export class NgxNotify {
   
@@ -16,6 +18,7 @@ export class NgxNotify {
     animation: 'fade',
     type: 'info'
   };
+  private static ngxColors: colors = {}
   
   private static isBrowser = typeof document !== 'undefined' && 
                              typeof window !== 'undefined' && 
@@ -24,11 +27,17 @@ export class NgxNotify {
   private static initialized = false;
   private static initPromise: Promise<void> | null = null;
 
-  static init(injector: Injector, config?: Partial<ConfigNotify>): void {
+  static init(injector: Injector, config?: Partial<NgxNotifyConfig>): void {
+    
     if (this.initialized) {
       console.warn('NgxNotify ya está inicializado. Llamar a init() nuevamente actualizará la configuración.');
       if (config) {
-        this.setDefaultConfig(config);
+        const {toast } = config;
+        this.setDefaultConfig({
+          duration: config.timer,
+          ...toast
+        });
+        this.setColors({...config});
       }
       return;
     }
@@ -40,12 +49,14 @@ export class NgxNotify {
     this.injector = injector;
     
     if (config) {
-      this.defaultConfig = { ...this.defaultConfig, ...config };
+      const {toast } = config;
+      this.defaultConfig = { ...this.defaultConfig, ...toast };
+      this.setColors({...config});
     }
 
     // Crear instancia del servicio interno
     try {
-      this.instance = new NotifyServiceInternal(injector, this.defaultConfig);
+      this.instance = new NotifyServiceInternal(injector, this.defaultConfig, this.ngxColors);
       this.initialized = true;
       
       // Registrar para limpieza al recargar página (opcional)
@@ -54,8 +65,6 @@ export class NgxNotify {
           this.destroy();
         });
       }
-      
-      console.log('✅ NgxNotify inicializado correctamente');
     } catch (error) {
       console.error('❌ Error al inicializar NgxNotify:', error);
       throw error;
@@ -65,7 +74,7 @@ export class NgxNotify {
   /**
    * Inicialización asíncrona (útil para lazy loading)
    */
-  static async initAsync(injector: Injector, config?: Partial<ConfigNotify>): Promise<void> {
+  static async initAsync(injector: Injector, config?: Partial<NgxNotifyConfig>): Promise<void> {
     if (this.initPromise) {
       return this.initPromise;
     }
@@ -97,10 +106,18 @@ export class NgxNotify {
     throw new Error('NgxNotify no ha sido inicializado. Llama a init() primero.');
   }
 
+  static setColors(colors: Partial<BtnColors & ColorConfig>): void {
+    console.log(colors);
+    
+    this.ngxColors = { ...this.ngxColors, ...colors };
+  }
+
   /**
    * Actualiza la configuración por defecto global
    */
   static setDefaultConfig(config: Partial<ConfigNotify>): void {
+    console.log(config);
+    
     this.defaultConfig = { ...this.defaultConfig, ...config };
     
     if (this.instance) {
@@ -246,16 +263,14 @@ export class NgxNotify {
    */
   static provide(config?: Partial<NgxNotifyConfig>) {
     return provideAppInitializer(() => {
-      NgxNotify.init(inject(Injector), {
-        
-      });
+      NgxNotify.init(inject(Injector), config);
     });
   }
 
   /**
    * Versión async del provider
    */
-  static provideAsync(config?: Partial<ConfigNotify>) {
+  static provideAsync(config?: Partial<NgxNotifyConfig>) {
     return provideAppInitializer(async () => {
       await NgxNotify.initAsync(inject(Injector), config);
     });
