@@ -1,1 +1,243 @@
-<p>home-page works!</p>
+<div class="max-w-3xl mx-auto px-10 py-14">
+
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <section class="mb-16">
+
+    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full mb-5
+                bg-slate-100 dark:bg-slate-800/60
+                border border-slate-200 dark:border-slate-700/50">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+      <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wide font-mono">
+        @gersomsim/ngx-notify
+      </span>
+    </div>
+
+    <h1 class="text-4xl font-semibold tracking-tight leading-tight mb-4
+               text-slate-900 dark:text-slate-100">
+      Notifications & confirmations<br>
+      <span class="text-slate-400 dark:text-slate-500">for Angular.</span>
+    </h1>
+
+    <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mb-2">
+      ngx-notify is a lightweight Angular library that provides a simple and flexible way to display toast notifications and confirmation dialogs in your applications.
+    </p>
+    <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mb-2">
+     It is designed to be easy to integrate, fully typed with TypeScript, and customizable to adapt to different UI needs. The library focuses on providing a clean developer experience while keeping the API minimal and intuitive.
+    </p>
+    <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mb-8">
+     With ngx-notify, developers can quickly add user feedback mechanisms such as success messages, error alerts, warnings, and confirmation dialogs for critical actions.
+    </p>
+
+    <!-- Badges -->
+    <div class="flex items-center gap-3 flex-wrap">
+      <a href="https://www.npmjs.com/package/@gersomsim/ngx-notify"
+         target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium
+                bg-slate-900 dark:bg-slate-100
+                text-white dark:text-slate-900
+                hover:opacity-80 transition-opacity no-underline">
+        <svg width="12" height="12" viewBox="0 0 780 250" fill="currentColor">
+          <path d="M0 250V0h250v250H150V50h-50v200zm280 0V0h250l-1 200h50V0h50v250z"/>
+        </svg>
+        npm
+      </a>
+      <a href="https://github.com/gersomsim/ngx-notify"
+         target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium
+                border border-slate-200 dark:border-slate-700
+                text-slate-700 dark:text-slate-300
+                hover:bg-slate-100 dark:hover:bg-slate-800/60
+                transition-colors no-underline">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ── Features ───────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Features</h2>
+
+    <div class="grid grid-cols-2 gap-3 mt-6">
+      @for (feat of features; track feat.title) {
+        <div class="p-4 rounded-xl border
+                    border-slate-200 dark:border-slate-800
+                    bg-white dark:bg-slate-900/40">
+          <span class="text-lg mb-2 block">{{ feat.icon }}</span>
+          <h3 class="text-[13.5px] font-semibold mb-1
+                     text-slate-800 dark:text-slate-200">
+            {{ feat.title }}
+          </h3>
+          <p class="text-[12.5px] leading-relaxed
+                    text-slate-500 dark:text-slate-500">
+            {{ feat.desc }}
+          </p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ── Requirements ───────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Requirements</h2>
+    <p class="section-desc">To use ngx-notify, your project must meet the following requirements:</p>
+
+    <div class="mt-5 flex flex-wrap gap-2">
+      @for (req of requirements; track req) {
+        <span class="inline-flex items-center px-3 py-1.5 rounded-lg
+                     text-[12px] font-mono font-medium
+                     bg-slate-100 dark:bg-slate-800/60
+                     text-slate-700 dark:text-slate-300
+                     border border-slate-200 dark:border-slate-700/60">
+          {{ req }}
+        </span>
+      }
+    </div>
+    <p class="section-desc mt-5 ">
+      The library is designed to work with modern Angular applications and leverages the standalone provider pattern for a simpler setup and better tree-shaking.
+    </p>
+    <p class="section-desc mt-2">
+      Toast notifications support stacked rendering, meaning multiple notifications can appear simultaneously without overlapping. Each notification is displayed in sequence within the same container.
+    </p>
+  </section>
+
+  <!-- ── Installation ───────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Installation</h2>
+    <p class="section-desc">Install via your preferred package manager.</p>
+
+    <div class="mt-5">
+      <ui-terminal-block [lines]="installLines" title="Terminal" />
+    </div>
+    <p class="section-desc mt-5">The library includes its own styles, so no additional CSS imports are required.</p>
+
+  </section>
+
+  <!-- ── Setup ──────────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Setup</h2>
+    <p class="section-desc">
+      Register the library once in your application config using
+      <code class="inline-code">NgxNotify.provide()</code>.
+      No modules needed.
+    </p>
+
+    <div class="mt-5">
+      <ui-code-block [code]="setupCode" filename="app.config.ts" />
+    </div>
+    <p class="section-desc mt-5">This global configuration defines the default behavior for toast notifications and confirm dialogs across your application.</p>
+  </section>
+
+  <!-- ── Basic Usage ────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Basic Usage</h2>
+    <p class="section-desc">
+      Call <code class="inline-code">NgxNotify</code> can be used in two different ways:
+    </p>
+    <ul class="section-desc my-2 list-decimal pl-12">
+      <li>Using the Angular services</li>
+      <li>Using the static facade</li>
+    </ul>
+
+    <p class="section-desc">Both approaches are independent.</p>
+    <p class="section-desc">If you use the services directly, no global configuration is required.</p>
+    <h3 class="section-title text-lg mt-5">Using the Angular services</h3>
+    <p class="section-desc">You can inject the services directly into standalone components or other services..</p>
+    <h3 class="section-title text-lg mt-5">Toast Notifications</h3>
+    <div class="mt-5">
+      <ui-code-block [code]="toastServiceCode" filename="my.ts" />
+    </div>
+    <h3 class="section-title text-lg mt-5">Confirm Dialogs</h3>
+    <div class="mt-5">
+      <ui-code-block [code]="confirmServiceCode" filename="my.ts" />
+    </div>
+    <h3 class="section-title text-lg mt-5">Using the Static Facade</h3>
+    <p class="section-desc">You can also use the static facade to trigger notifications without injecting services.</p>
+    <p class="section-desc my-4">This approach requires configuring the provider in <code class="inline-code">app.config.ts</code>.</p>
+    <div class="mt-5">
+      <ui-code-block [code]="usageFacadeCode" filename="my.component.ts" />
+    </div>
+  </section>
+
+    <!-- ── Global configuration ────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Global Configuration</h2>
+    <p class="section-desc">
+      ngx-notify allows you to define global defaults for notifications and confirmation dialogs using the provider configuration.
+    </p>
+    <p class="section-desc mt-2">
+     This configuration helps maintain consistent behavior and styling across the entire application.
+    </p>
+    <p class="section-desc mt-2">
+      A recommended approach is to define a configuration file at the root of your project.
+    </p>
+    <h3 class="section-title text-lg mt-5">Create a configuration file</h3>
+     <p class="section-desc mt-2">
+      Example: <code class="inline-code">ngx-notify.config.ts</code>
+    </p>
+    <div class="mt-5">
+      <ui-code-block [code]="configurationCode" filename="ngx-notify.config.ts" />
+    </div>
+    <h3 class="section-title text-lg mt-5">Register the configuration</h3>
+     <p class="section-desc mt-2">
+      Use the configuration when registering the provider in <code class="inline-code">app.config.ts</code>:
+    </p>
+    <div class="mt-5">
+      <ui-code-block [code]="appConfigCode" filename="app.config.ts" />
+    </div>
+    <h3 class="section-title text-lg mt-5">Configuration properties</h3>
+      <div class="mt-5">
+        <ui-props-table [rows]="configRows" />
+      </div>
+    <h3 class="section-title text-lg mt-5">Toast configuration properties</h3>
+    <div class="mt-5">
+      <ui-props-table [rows]="toastConfigRows" />
+    </div>
+  </section>
+
+  <!-- ── Next Steps ─────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">What's next</h2>
+    <p class="section-desc">Explore each module in detail.</p>
+
+    <div class="grid grid-cols-2 gap-4 mt-6">
+      <a routerLink="/ngx-notify" class="next-card group">
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center
+                      bg-slate-100 dark:bg-slate-800
+                      text-slate-600 dark:text-slate-300 text-base">
+            🔔
+          </div>
+          <span class="text-slate-300 dark:text-slate-700 group-hover:text-slate-500
+                       dark:group-hover:text-slate-400 transition-colors text-sm">→</span>
+        </div>
+        <h3 class="text-[13.5px] font-semibold mb-1
+                   text-slate-800 dark:text-slate-200">ngx-notify</h3>
+        <p class="text-[12.5px] text-slate-500 dark:text-slate-500 leading-relaxed">
+          Toast notifications — types, positions, animations and configuration.
+        </p>
+      </a>
+
+      <a routerLink="/ngx-confirm" class="next-card group">
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center
+                      bg-slate-100 dark:bg-slate-800
+                      text-slate-600 dark:text-slate-300 text-base">
+            💬
+          </div>
+          <span class="text-slate-300 dark:text-slate-700 group-hover:text-slate-500
+                       dark:group-hover:text-slate-400 transition-colors text-sm">→</span>
+        </div>
+        <h3 class="text-[13.5px] font-semibold mb-1
+                   text-slate-800 dark:text-slate-200">ngx-confirm</h3>
+        <p class="text-[12.5px] text-slate-500 dark:text-slate-500 leading-relaxed">
+          Confirmation dialogs — callbacks, icons, custom button colors.
+        </p>
+      </a>
+    </div>
+  </section>
+
+</div>

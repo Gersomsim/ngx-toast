@@ -1,0 +1,27 @@
+@reference "../../../styles.css";
+
+.section-title {
+  @apply text-xl font-semibold tracking-tight mb-1.5
+         text-slate-900 dark:text-slate-100;
+}
+
+.section-desc {
+  @apply text-[13.5px] leading-relaxed
+         text-slate-500 dark:text-slate-400;
+}
+
+.inline-code {
+  @apply font-mono text-[12px] px-1.5 py-0.5 rounded
+         bg-slate-100 dark:bg-slate-800
+         text-slate-700 dark:text-slate-300
+         border border-slate-200 dark:border-slate-700/50;
+}
+
+.next-card {
+  @apply block p-5 rounded-xl border no-underline
+         border-slate-200 dark:border-slate-800
+         bg-white dark:bg-slate-900/40
+         hover:border-slate-300 dark:hover:border-slate-700
+         hover:bg-slate-50 dark:hover:bg-slate-800/40
+         transition-[border-color,background-color] duration-150;
+}
