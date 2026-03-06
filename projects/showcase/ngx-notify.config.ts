@@ -7,5 +7,7 @@ export const ngxNotifyConfig: NgxNotifyConfig = {
         closeButton: true,
         icon: true,
         animation: 'slide',
-    }
+    },
+    confirmBtnColor: '#28a745',
+    
 }
