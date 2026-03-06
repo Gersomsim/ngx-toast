@@ -1,0 +1,146 @@
+<div [formGroup]="notifyConfig"
+     class="rounded-xl border border-slate-200 dark:border-slate-800
+            bg-white dark:bg-slate-900/40 overflow-hidden">
+
+  <!-- Header -->
+  <div class="flex items-center gap-2.5 px-5 py-3.5
+              border-b border-slate-100 dark:border-slate-800/80">
+    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+    <span class="text-[12px] font-semibold text-slate-500 dark:text-slate-500 tracking-wide uppercase">
+      Playground
+    </span>
+  </div>
+
+  <!-- Body -->
+  <div class="grid grid-cols-[1fr_1fr] divide-x divide-slate-100 dark:divide-slate-800/80">
+
+    <!-- ── Left: controls ───────────────────────────────────── -->
+    <div class="p-5 flex flex-col gap-5">
+
+      <!-- Type -->
+      <div>
+        <p class="field-label">Type</p>
+        <div class="flex flex-wrap gap-1.5">
+          @for (t of types; track t) {
+            <button type="button"
+                    (click)="notifyConfig.patchValue({ type: t })"
+                    [class]="notifyConfig.get('type')?.value === t ? 'type-btn active' : 'type-btn'">
+              <span [class]="'dot dot--' + t"></span>
+              {{ t }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Position grid -->
+      <div>
+        <p class="field-label">Position</p>
+        <div class="grid grid-cols-3 gap-1 w-fit">
+          @for (pos of positionGrid; track pos) {
+            <button type="button"
+                    (click)="setPosition(pos)"
+                    [title]="pos"
+                    [class]="notifyConfig.get('position')?.value === pos
+                      ? 'pos-cell pos-cell--active'
+                      : 'pos-cell'">
+            </button>
+          }
+        </div>
+        <p class="mt-1.5 text-[11px] text-slate-400 dark:text-slate-600 font-mono">
+          '{{ notifyConfig.get('position')?.value }}'
+        </p>
+      </div>
+
+      <!-- Animation -->
+      <div>
+        <p class="field-label">Animation</p>
+        <div class="flex rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700/60 w-fit">
+          @for (anim of animations; track anim; let last = $last) {
+            <button type="button"
+                    (click)="notifyConfig.patchValue({ animation: anim })"
+                    [class]="notifyConfig.get('animation')?.value === anim
+                      ? 'anim-btn anim-btn--active'
+                      : 'anim-btn'"
+                    [class.border-r]="!last"
+                    [class.border-slate-200]="!last"
+                    [class.dark:border-slate-700\/60]="!last">
+              {{ anim }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Text fields -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="field-label">Title</label>
+          <input type="text" formControlName="title" class="field-input" placeholder="e.g. Success">
+        </div>
+        <div>
+          <label class="field-label">Duration (ms)</label>
+          <input type="number" formControlName="duration" class="field-input" placeholder="3000">
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Message</label>
+        <input type="text" formControlName="message" class="field-input" placeholder="Notification text…">
+      </div>
+
+      <!-- Toggles -->
+      <div class="flex items-center gap-5 pt-1">
+        <label class="toggle-wrap">
+          <div class="relative">
+            <input type="checkbox" formControlName="icon" class="sr-only peer">
+            <div class="toggle-track peer-checked:toggle-track--on"></div>
+            <div class="toggle-thumb peer-checked:translate-x-3.5"></div>
+          </div>
+          <span class="toggle-label">Icon</span>
+        </label>
+
+        <label class="toggle-wrap">
+          <div class="relative">
+            <input type="checkbox" formControlName="closeButton" class="sr-only peer">
+            <div class="toggle-track peer-checked:toggle-track--on"></div>
+            <div class="toggle-thumb peer-checked:translate-x-3.5"></div>
+          </div>
+          <span class="toggle-label">Close button</span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- ── Right: code preview + actions ────────────────────── -->
+    <div class="p-5 flex flex-col gap-4">
+
+      <div>
+        <p class="field-label">Generated code</p>
+        <ui-code-block [code]="configCode()" filename="example.ts" />
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 mt-auto pt-1">
+        <button type="button"
+                (click)="showNotification()"
+                class="flex-1 px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer
+                       bg-slate-900 dark:bg-slate-100
+                       text-white dark:text-slate-900
+                       hover:opacity-80 transition-opacity">
+          Show notification
+        </button>
+
+        <button type="button"
+                (click)="copyConfig()"
+                class="px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer
+                       border border-slate-200 dark:border-slate-700
+                       text-slate-600 dark:text-slate-400
+                       hover:bg-slate-50 dark:hover:bg-slate-800/60
+                       transition-colors min-w-[110px] text-center">
+          {{ copied() ? '✓ Copied' : 'Copy config' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

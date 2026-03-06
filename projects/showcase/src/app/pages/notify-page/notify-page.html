@@ -1,1 +1,201 @@
-<p>notify-page works!</p>
+<div class="max-w-3xl mx-auto px-10 py-14">
+
+  <!-- ── Breadcrumb ─────────────────────────────────────────── -->
+  <nav class="flex items-center gap-2 text-[12px] text-slate-400 dark:text-slate-600 mb-10">
+    <a routerLink="/" class="hover:text-slate-600 dark:hover:text-slate-400 transition-colors no-underline">
+      Get Started
+    </a>
+    <span>/</span>
+    <span class="text-slate-600 dark:text-slate-400">ngx-notify</span>
+  </nav>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <section class="mb-14">
+    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full mb-5
+                bg-slate-100 dark:bg-slate-800/60
+                border border-slate-200 dark:border-slate-700/50">
+      <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+      <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-wide font-mono">
+        ngx-notify
+      </span>
+    </div>
+
+    <h1 class="text-4xl font-semibold tracking-tight leading-tight mb-4
+               text-slate-900 dark:text-slate-100">
+      Toast Notifications
+    </h1>
+
+    <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
+      <code class="inline-code">ngx-notify</code> provides a simple and flexible API for showing toast notifications.
+    </p>
+    <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
+      You can either use quick helper methods or the advanced <code class="inline-code">show()</code> method for full customization.
+    </p>
+  </section>
+
+  <!-- ── Static API ─────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Quick Notifications</h2>
+    <p class="section-desc mb-5">
+      The fastest way to show a notification is using the helper methods.
+    </p>
+    <ui-code-block [code]="shorthandCode" filename="example.ts" />
+
+    <!-- .show() -->
+    <h3 class="subsection-title mt-8">NgxNotify.show()</h3>
+    <p class="section-desc mb-4">
+      For more advanced control, you can use the <code class="inline-code">show()</code> method.
+    </p>
+    <p class="section-desc mb-4">
+      You can override the global configuration for a specific notification.
+    </p>
+    <ui-code-block [code]="showCode" filename="example.ts" />
+
+    <!-- Per-call options -->
+    <h3 class="subsection-title mt-8">Per-call configuration</h3>
+    <p class="section-desc mb-4">
+      The shorthand methods accept a partial
+      <code class="inline-code">ConfigNotify</code> as a second argument,
+      letting you override duration, position, or animation per call.
+    </p>
+    <ui-code-block [code]="configOptionsCode" filename="example.ts" />
+  </section>
+
+  <!-- ── Service API ────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">NgxNotifyService — injectable API</h2>
+    <p class="section-desc mb-5">
+      For scenarios where you prefer Angular's dependency injection,
+      <code class="inline-code">NgxNotifyService</code> exposes the same
+      <code class="inline-code">.show()</code> method via injection.
+      It is provided in root automatically after calling
+      <code class="inline-code">NgxNotify.provide()</code>.
+    </p>
+    <ui-code-block [code]="serviceCode" filename="dashboard.component.ts" />
+  </section>
+
+  <!-- ── Position methods ───────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Position-specific methods</h2>
+    <p class="section-desc mb-5">
+      Convenience methods that combine a type shorthand with an
+      explicit position, useful when you want different notification types to
+      appear at different corners simultaneously.
+    </p>
+    <ui-code-block [code]="positionCode" filename="example.ts" />
+  </section>
+
+  <!-- ── Close all ──────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Dismiss all</h2>
+    <p class="section-desc mb-5">
+      Call <code class="inline-code">NgxNotify.closeAll()</code> to
+      programmatically dismiss every visible notification at once.
+    </p>
+    <ui-code-block [code]="closeAllCode" filename="example.ts" />
+  </section>
+
+  <!-- ── API Reference ──────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">ConfigNotify</h2>
+    <p class="section-desc mb-5">
+      Placeholder — complete reference for the
+      <code class="inline-code">ConfigNotify</code> interface accepted by
+      <code class="inline-code">NgxNotify.show()</code> and
+      <code class="inline-code">NgxNotifyService.show()</code>.
+    </p>
+    <ui-props-table [rows]="configRows" />
+  </section>
+
+  <!-- ── Types ──────────────────────────────────────────────── -->
+  <section class="mb-14">
+    <h2 class="section-title">Types reference</h2>
+
+    <!-- NotifyPosition -->
+    <h3 class="subsection-title mb-4">NotifyPosition</h3>
+    <p class="section-desc mb-5">
+      Placeholder — 9 positions covering all corners, edges, and the center of the viewport.
+    </p>
+
+    <div class="grid grid-cols-3 gap-2 mb-8">
+      @for (pos of positions; track pos) {
+        <button 
+          (click)="showPosition(pos)"
+          class="flex items-center justify-center py-2.5 px-3 rounded-lg
+                    border border-slate-200 dark:border-slate-800
+                    bg-white dark:bg-slate-900/40 cursor-pointer">
+          <code class="font-mono text-[11.5px] text-slate-600 dark:text-slate-400">
+            '{{ pos }}'
+          </code>
+        </button>
+      }
+    </div>
+
+    <!-- AnimationType -->
+    <h3 class="subsection-title mb-4">AnimationType</h3>
+    <p class="section-desc mb-5">
+      Controls the entry and exit animation of each notification.
+    </p>
+
+    <div class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+      @for (anim of animations; track anim.value; let last = $last) {
+        <button [class]="last ? '' : 'border-b border-slate-100 dark:border-slate-800/70'"
+             class="flex items-start gap-4 px-4 py-3  cursor-pointer w-full"
+             (click)="showAnimation(anim.value)"
+        >
+          <code class="font-mono text-[12px] shrink-0 w-14
+                       text-indigo-600 dark:text-indigo-400">
+            '{{ anim.value }}'
+          </code>
+          <span class="text-[13px] text-slate-500 dark:text-slate-400">
+            {{ anim.desc }}
+          </span>
+        </button>
+      }
+    </div>
+
+    <!-- NotifyType -->
+    <h3 class="subsection-title mt-8 mb-4">NotifyType</h3>
+    <p class="section-desc mb-5">
+      The four semantic notification levels.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      @for (t of ['success', 'error', 'warning', 'info']; track t) {
+        <button 
+          (click)="showType(t)"
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg
+                    border border-slate-200 dark:border-slate-800
+                    bg-white dark:bg-slate-900/40 cursor-pointer">
+          <span [class]="'type-dot type-dot--' + t"></span>
+          <code class="font-mono text-[12px] text-slate-700 dark:text-slate-300">
+            '{{ t }}'
+          </code>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="section-title">Test and configure</h2>
+    <div class="mt-5">
+      <app-test-ngx-notify />
+    </div>
+  </section>
+
+  <!-- ── Next ───────────────────────────────────────────────── -->
+  <section>
+    <div class="pt-8 border-t border-slate-200 dark:border-slate-800">
+      <p class="text-[12.5px] text-slate-400 dark:text-slate-600 mb-3">Next</p>
+      <a routerLink="/ngx-confirm"
+         class="inline-flex items-center gap-2 text-[13.5px] font-medium
+                text-slate-700 dark:text-slate-300
+                hover:text-slate-900 dark:hover:text-slate-100
+                transition-colors no-underline group">
+        ngx-confirm
+        <span class="group-hover:translate-x-0.5 transition-transform">→</span>
+      </a>
+    </div>
+  </section>
+
+</div>
