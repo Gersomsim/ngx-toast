@@ -15,7 +15,7 @@ export class NgxNotify {
     position: 'top-right',
     closeButton: true,
     icon: true,
-    animation: 'fade',
+    animation: 'slide',
     type: 'info'
   };
   private static ngxColors: colors = {}
@@ -225,6 +225,13 @@ export class NgxNotify {
 
   static confirm(config: Partial<ConfirmConfig>): void {
     if (!this.checkInitialized()) return;
+    const fullConfig: ConfirmConfig = {
+      showConfirmButton: true,
+      showCancelButton: true,
+      icon: 'warning',
+      closeBackdropClick: false,
+      ...config,
+    };
     this.instance.confirm(config);
   }
 
