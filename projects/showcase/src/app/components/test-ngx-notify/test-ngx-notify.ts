@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { AnimationType, ConfigNotify, NgxNotify, NotifyPosition, NotifyType } from '@gersomsim/ngx-notify';
+import { NgxNotify, NgxNotifyAnimationType, NgxNotifyPositionType, NgxNotifyToastConfig, NgxNotifyType } from '@gersomsim/ngx-notify';
 import { CodeBlock } from '../../ui/code-block';
 
 @Component({
@@ -43,15 +43,15 @@ export class TestNgxNotify implements OnInit {
 
   showNotification() {
     const v = this.notifyConfig.getRawValue();
-    const config: ConfigNotify = {
+    const config: NgxNotifyToastConfig  = {
       message:     v.message,
-      type:        v.type as NotifyType,
+      type:        v.type as NgxNotifyType,
       duration:    v.duration,
       title:       v.title,
-      animation:   v.animation as AnimationType,
+      animation:   v.animation as NgxNotifyAnimationType,
       closeButton: v.closeButton,
       icon:        v.icon,
-      position:    v.position as NotifyPosition,
+      position:    v.position as NgxNotifyPositionType,
     };
     NgxNotify.show(config);
   }

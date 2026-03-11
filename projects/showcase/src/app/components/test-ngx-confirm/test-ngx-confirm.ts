@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgxNotify } from '@gersomsim/ngx-notify';
-import { CodeBlock } from '../ui/code-block';
+import { CodeBlock } from '../../ui/code-block';
 
 @Component({
   selector: 'app-test-ngx-confirm',

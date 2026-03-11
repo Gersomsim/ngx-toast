@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { AnimationType, NgxNotify, NotifyPosition, NotifyType } from '@gersomsim/ngx-notify';
+import { NgxNotify, NgxNotifyAnimationType, NgxNotifyPositionType, NgxNotifyType } from '@gersomsim/ngx-notify';
 import { TestNgxNotify } from "../../components/test-ngx-notify/test-ngx-notify";
 import { CodeBlock } from '../../ui/code-block';
 import { PropRow, PropsTable, } from '../../ui/props-table';
@@ -170,21 +170,21 @@ NgxNotify.closeAll();`;
   ];
 
   showPosition(position: string) {
-    const newPosition = position as NotifyPosition
+    const newPosition = position as NgxNotifyPositionType
     NgxNotify.success('Toast in position'  , { 
       title: position,
       position: newPosition});
   }
 
   showAnimation(animation: string) {
-    const newAnimation = animation as AnimationType
+    const newAnimation = animation as NgxNotifyAnimationType
     NgxNotify.success('Hello Wordl!'  , { 
       animation: newAnimation,
       duration: 5000
     });
   }
   showType(type: string) {
-    const typeNotification = type as NotifyType
+    const typeNotification = type as NgxNotifyType
     NgxNotify.success('Hey there!'  , { 
       type: typeNotification,
       duration: 5000

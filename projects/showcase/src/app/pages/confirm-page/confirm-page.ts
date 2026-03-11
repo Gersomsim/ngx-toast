@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { TestNgxConfirm } from '../../test-ngx-confirm/test-ngx-confirm';
+import { TestNgxConfirm } from '../../components/test-ngx-confirm/test-ngx-confirm';
 import { CodeBlock } from '../../ui/code-block';
 import { PropRow, PropsTable } from '../../ui/props-table';
 
