@@ -1,0 +1,7 @@
+{                                               
+  "buildCommand": "ng build showcase --configuration=production",
+  "outputDirectory": "dist/showcase/browser",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
