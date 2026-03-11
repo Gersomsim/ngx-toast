@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TestNgxConfirm } from '../../test-ngx-confirm/test-ngx-confirm';
 import { CodeBlock } from '../../ui/code-block';
-import { PropsTable, PropRow } from '../../ui/props-table';
+import { PropRow, PropsTable } from '../../ui/props-table';
 
 @Component({
   selector: 'app-confirm-page',
-  imports: [CodeBlock, PropsTable, RouterLink],
+  imports: [CodeBlock, PropsTable, RouterLink, TestNgxConfirm],
   templateUrl: './confirm-page.html',
   styleUrl: './confirm-page.css',
 })

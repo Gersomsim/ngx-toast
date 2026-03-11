@@ -1,0 +1,66 @@
+@reference "../../styles.css";
+
+/* ── Field labels & inputs ────────────────────────────────── */
+
+.field-label {
+  @apply block text-[10.5px] font-semibold uppercase tracking-[0.08em] mb-1.5
+         text-slate-400 dark:text-slate-600;
+}
+
+.field-input {
+  @apply w-full px-3 py-2 text-[13px] rounded-lg
+         bg-slate-50 dark:bg-slate-800/60
+         border border-slate-200 dark:border-slate-700/60
+         text-slate-800 dark:text-slate-200
+         focus:outline-none focus:ring-1
+         focus:ring-slate-400/50 dark:focus:ring-slate-500/50
+         transition-shadow duration-100;
+}
+
+/* ── Icon selector buttons ────────────────────────────────── */
+
+.type-btn {
+  @apply flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[12px] font-medium
+         text-slate-500 dark:text-slate-500
+         border border-transparent
+         hover:bg-slate-100 dark:hover:bg-slate-800/60
+         hover:text-slate-700 dark:hover:text-slate-300
+         transition-colors cursor-pointer;
+}
+
+.type-btn.active {
+  @apply bg-slate-100 dark:bg-slate-800/80
+         border-slate-200 dark:border-slate-700/60
+         text-slate-900 dark:text-slate-100;
+}
+
+/* Colored indicator dots */
+.dot { @apply w-1.5 h-1.5 rounded-full shrink-0; }
+.dot--success { @apply bg-emerald-500; }
+.dot--error   { @apply bg-rose-500; }
+.dot--warning { @apply bg-amber-400; }
+.dot--info    { @apply bg-blue-500; }
+
+/* ── Toggle switch ────────────────────────────────────────── */
+
+.toggle-wrap {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.toggle-track {
+  @apply w-[30px] h-[17px] rounded-full transition-colors duration-150
+         bg-slate-200 dark:bg-slate-700;
+}
+
+.toggle-track--on {
+  @apply bg-slate-800 dark:bg-slate-300;
+}
+
+.toggle-thumb {
+  @apply absolute top-[2px] left-[2px] w-[13px] h-[13px] rounded-full bg-white
+         shadow-sm transition-transform duration-150;
+}
+
+.toggle-label {
+  @apply text-[13px] text-slate-600 dark:text-slate-400 select-none;
+}
