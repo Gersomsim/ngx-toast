@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { AnimationType, NgxNotify, NotifyPosition, NotifyType } from '@gersomsim/ngx-notify';
 import { TestNgxNotify } from "../../components/test-ngx-notify/test-ngx-notify";
@@ -11,7 +13,26 @@ import { PropRow, PropsTable, } from '../../ui/props-table';
   templateUrl: './notify-page.html',
   styleUrl: './notify-page.css',
 })
-export class NotifyPage {
+export class NotifyPage implements OnInit {
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+  private document = inject(DOCUMENT);
+
+  ngOnInit() {
+    this.titleService.setTitle('Toast Notifications API - ngx-notify');
+    this.metaService.updateTag({ name: 'description', content: 'Explore the configurations and positions for toast notifications in Angular using ngx-notify.' });
+    this.metaService.updateTag({ name: 'keywords', content: 'angular toast, ngx-notify toast, notification messages angular, toast api' });
+    this.addRssLink();
+  }
+
+  private addRssLink() {
+    const link: HTMLLinkElement = this.document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('type', 'application/rss+xml');
+    link.setAttribute('title', 'ngx-notify Toast RSS Feed');
+    link.setAttribute('href', '/rss.xml');
+    this.document.head.appendChild(link);
+  }
 
   // ── Code examples ─────────────────────────────────────────
 

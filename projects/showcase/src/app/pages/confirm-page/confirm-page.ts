@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { TestNgxConfirm } from '../../test-ngx-confirm/test-ngx-confirm';
 import { CodeBlock } from '../../ui/code-block';
@@ -10,7 +12,26 @@ import { PropRow, PropsTable } from '../../ui/props-table';
   templateUrl: './confirm-page.html',
   styleUrl: './confirm-page.css',
 })
-export class ConfirmPage {
+export class ConfirmPage implements OnInit {
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+  private document = inject(DOCUMENT);
+
+  ngOnInit() {
+    this.titleService.setTitle('Confirmation Dialogs API - ngx-notify');
+    this.metaService.updateTag({ name: 'description', content: 'Easily prompt users to confirm or cancel important actions in Angular with ngx-notify confirmation dialogs.' });
+    this.metaService.updateTag({ name: 'keywords', content: 'angular confirm dialog, ngx-notify confirm, confirmation modal, angular UI' });
+    this.addRssLink();
+  }
+
+  private addRssLink() {
+    const link: HTMLLinkElement = this.document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('type', 'application/rss+xml');
+    link.setAttribute('title', 'ngx-notify Confirm RSS Feed');
+    link.setAttribute('href', '/rss.xml');
+    this.document.head.appendChild(link);
+  }
 
   // ── Code examples ─────────────────────────────────────────
 

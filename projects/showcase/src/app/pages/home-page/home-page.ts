@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { CodeBlock } from '../../ui/code-block';
 import { PropRow, PropsTable } from '../../ui/props-table';
@@ -10,7 +12,26 @@ import { TerminalBlock, TerminalLine } from '../../ui/terminal-block';
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+  private document = inject(DOCUMENT);
+
+  ngOnInit() {
+    this.titleService.setTitle('ngx-notify - Elegant Toast Notifications & Confirmation Dialogs for Angular');
+    this.metaService.updateTag({ name: 'description', content: 'A lightweight, standalone-first library for elegant toast messages and confirmation dialogs in modern Angular applications.' });
+    this.metaService.updateTag({ name: 'keywords', content: 'angular, toast, notification, ngx-notify, confirmation dialog, standalone, typescript' });
+    this.addRssLink();
+  }
+
+  private addRssLink() {
+    const link: HTMLLinkElement = this.document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('type', 'application/rss+xml');
+    link.setAttribute('title', 'ngx-notify RSS Feed');
+    link.setAttribute('href', '/rss.xml');
+    this.document.head.appendChild(link);
+  }
 
   features = [
     {
