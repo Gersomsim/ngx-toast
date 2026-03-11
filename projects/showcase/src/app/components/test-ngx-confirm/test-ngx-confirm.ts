@@ -22,7 +22,7 @@ export class TestNgxConfirm implements OnInit {
     timer: [3000],
     confirmText: ['Yes, delete it!'],
     cancelText: ['No'],
-    showProgressBar: [false],
+    showTimerProgressBar: [false],
     closeBackdropClick: [true],
     icon: [this.icons[0]],
   });
@@ -58,7 +58,7 @@ export class TestNgxConfirm implements OnInit {
   showConfirmButton: ${v.showConfirmButton},
   showCancelButton: ${v.showCancelButton},
   timer: ${v.timer},
-  showProgressBar: ${v.showProgressBar},
+  showTimerProgressBar: ${v.showTimerProgressBar},
   closeBackdropClick: ${v.closeBackdropClick},
 });`
     );

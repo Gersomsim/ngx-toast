@@ -119,7 +119,7 @@ NgxNotify.closeAll();`;
     },
     {
       name: 'position',
-      type: 'NotifyPosition',
+      type: 'NgxNotifyPositionType',
       default: `'top-right'`,
       description: 'Where on the screen the toast appears. See positions reference below.',
     },

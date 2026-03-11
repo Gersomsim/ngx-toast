@@ -51,7 +51,7 @@ NgxNotify.confirm({
 });`;
 
   serviceCode = `import { Component, inject } from '@angular/core';
-import { NgxConfirmService, ConfirmEvent } from '@gersomsim/ngx-notify';
+import { NgxConfirmService, NgxNotifyConfirmEvent } from '@gersomsim/ngx-notify';
 
 @Component({
   selector: 'app-settings',
@@ -68,7 +68,7 @@ export class SettingsComponent {
       icon: 'warning',
       confirmText: 'Reset',
       showCancelButton: true,
-      callback: (event: ConfirmEvent) => {
+      callback: (event: NgxNotifyConfirmEvent) => {
         if (event.confirm) this.resetSettings();
       },
     });
@@ -165,7 +165,7 @@ NgxNotify.confirm({
     },
     {
       name: 'callback',
-      type: '(event: ConfirmEvent) => void',
+      type: '(event: NgxNotifyConfirmEvent) => void',
       description: 'Function called when the dialog is closed by any means.',
     },
     {
