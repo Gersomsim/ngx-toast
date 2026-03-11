@@ -1,1 +1,1 @@
-export type ConfirmEventType = 'close' | 'cancel' | 'confirm' | 'backdropClick';
+export type NgxNotifyConfirmEventType = 'close' | 'cancel' | 'confirm' | 'backdropClick';

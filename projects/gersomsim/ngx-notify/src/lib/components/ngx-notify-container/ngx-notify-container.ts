@@ -1,5 +1,5 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { NotifyPosition } from '../../types';
+import { NgxNotifyPositionType } from '../../types';
 
 @Component({
   selector: 'gsm-notify-container',
@@ -9,5 +9,5 @@ import { NotifyPosition } from '../../types';
   host: { '[class]': '"notify-container " + position()' },
 })
 export class NgxNotifyContainer {
-  position = input<NotifyPosition>('top-right');
+  position = input<NgxNotifyPositionType>('top-right');
 }

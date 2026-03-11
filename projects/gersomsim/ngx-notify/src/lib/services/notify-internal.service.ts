@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { NgxConfirm, NgxNotify } from '../components';
 import { NgxNotifyContainer } from '../components/ngx-notify-container/ngx-notify-container';
-import { BtnColors, ColorConfig, ConfirmConfig, ConfirmEvent, ConfigNotify } from '../interfaces';
-import { NotifyPosition } from '../types';
+import { ConfirmConfig, NgxNotifyColorConfig, NgxNotifyConfirmButtonColors, NgxNotifyConfirmEvent, NgxNotifyToastConfig } from '../interfaces';
+import { NgxNotifyPositionType } from '../types';
 
-type colors = Partial<BtnColors & ColorConfig>
+type colors = Partial<NgxNotifyConfirmButtonColors & NgxNotifyColorConfig>
 
 export class NotifyServiceInternal {
   private appRef: ApplicationRef;
@@ -21,7 +21,7 @@ export class NotifyServiceInternal {
    * Mapa de contenedores por posición
    * Cada contenedor tiene su referencia y un Set de notificaciones activas
    */
-  private containers = new Map<NotifyPosition, {
+  private containers = new Map<NgxNotifyPositionType, {
     containerRef: ComponentRef<NgxNotifyContainer>;
     notifications: Set<ComponentRef<NgxNotify>>;
   }>();
@@ -29,7 +29,7 @@ export class NotifyServiceInternal {
   /**
    * Configuración por defecto
    */
-  private defaultConfig: Partial<ConfigNotify> = {
+  private defaultConfig: Partial<NgxNotifyToastConfig> = {
     duration: 3000,
     position: 'top-right',
     closeButton: true,
@@ -39,7 +39,7 @@ export class NotifyServiceInternal {
 
   private ngxColors: colors = {}
 
-  constructor(injector: Injector, defaultConfig?: Partial<ConfigNotify>, colors?: colors) {
+  constructor(injector: Injector, defaultConfig?: Partial<NgxNotifyToastConfig>, colors?: colors) {
     this.appRef = injector.get(ApplicationRef);
     this.injector = injector.get(EnvironmentInjector);
     
@@ -55,14 +55,14 @@ export class NotifyServiceInternal {
   /**
    * Actualizar configuración por defecto
    */
-  setDefaultConfig(config: Partial<ConfigNotify>): void {
+  setDefaultConfig(config: Partial<NgxNotifyToastConfig>): void {
     this.defaultConfig = { ...this.defaultConfig, ...config };
   }
 
   /**
    * Mostrar una notificación
    */
-  show(userConfig: ConfigNotify): void {
+  show(userConfig: NgxNotifyToastConfig): void {
     // Verificar que estamos en el navegador (para SSR)
     if (typeof document === 'undefined') {
       console.warn('NgxNotify: No se puede mostrar notificación en SSR');
@@ -70,7 +70,7 @@ export class NotifyServiceInternal {
     }
 
     // Fusionar configuración
-    const config = { ...this.defaultConfig, ...userConfig } as ConfigNotify;
+    const config = { ...this.defaultConfig, ...userConfig } as NgxNotifyToastConfig;
     const position = config.position ?? 'top-right';
 
     // Obtener o crear contenedor para esta posición
@@ -141,7 +141,7 @@ export class NotifyServiceInternal {
 
     let isClosed = false;
 
-    compRef.instance.close$.subscribe((event: ConfirmEvent) => {
+    compRef.instance.close$.subscribe((event: NgxNotifyConfirmEvent) => {
       isClosed = true;
       config.callback?.(event);
       this.destroyConfirm(compRef);
@@ -170,7 +170,7 @@ export class NotifyServiceInternal {
   /**
    * Cerrar la notificación más reciente de una posición
    */
-  closeLatest(position: NotifyPosition): void {
+  closeLatest(position: NgxNotifyPositionType): void {
     const containerData = this.containers.get(position);
     if (containerData && containerData.notifications.size > 0) {
       const notifications = Array.from(containerData.notifications);
@@ -197,7 +197,7 @@ export class NotifyServiceInternal {
   /**
    * Obtener o crear un contenedor para una posición específica
    */
-  private getOrCreateContainer(position: NotifyPosition) {
+  private getOrCreateContainer(position: NgxNotifyPositionType) {
     if (!this.containers.has(position)) {
       // Crear el contenedor
       const containerRef = createComponent(NgxNotifyContainer, {
@@ -231,7 +231,7 @@ export class NotifyServiceInternal {
   /**
    * Crear un componente de notificación
    */
-  private createNotification(config: ConfigNotify): ComponentRef<NgxNotify> {
+  private createNotification(config: NgxNotifyToastConfig): ComponentRef<NgxNotify> {
     const compRef = createComponent(NgxNotify, {
       environmentInjector: this.injector,
     });
@@ -270,7 +270,7 @@ export class NotifyServiceInternal {
    */
   private destroyNotification(
     compRef: ComponentRef<NgxNotify>,
-    position: NotifyPosition,
+    position: NgxNotifyPositionType,
     onClose?: () => void
   ): void {
     const containerData = this.containers.get(position);
@@ -303,7 +303,7 @@ export class NotifyServiceInternal {
   /**
    * Destruir un contenedor completo
    */
-  private destroyContainer(position: NotifyPosition): void {
+  private destroyContainer(position: NgxNotifyPositionType): void {
     const containerData = this.containers.get(position);
     if (containerData) {
       // Asegurarse de que no queden notificaciones

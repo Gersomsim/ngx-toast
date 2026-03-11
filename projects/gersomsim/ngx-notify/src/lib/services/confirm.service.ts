@@ -1,6 +1,6 @@
 import { ApplicationRef, ComponentRef, createComponent, EnvironmentInjector, inject, Injectable } from "@angular/core";
 import { NgxConfirm as NgxConfirmComponent } from "../components";
-import { ConfirmConfig, ConfirmEvent } from "../interfaces";
+import { ConfirmConfig, NgxNotifyConfirmEvent } from "../interfaces";
 
 @Injectable({ providedIn: 'root' })
 export class NgxConfirmService {
@@ -41,7 +41,7 @@ export class NgxConfirmService {
     let isClosed = false;
 
     compRef.instance.close$
-      .subscribe((event: ConfirmEvent) => {
+      .subscribe((event: NgxNotifyConfirmEvent) => {
         isClosed = true;
         config.callback?.(event);
         this.destroyConfirm(compRef);

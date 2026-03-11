@@ -1,12 +1,12 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ColorConfig } from '../../interfaces';
-import { AnimationType, NotifyPosition, NotifyType } from '../../types';
+import { NgxNotifyColorConfig } from '../../interfaces';
+import { NgxNotifyAnimationType, NgxNotifyPositionType, NgxNotifyType } from '../../types';
 import { NgxNotifyIcon } from '../ngx-notify-icon/ngx-notify-icon';
 
 /* Duración de las animaciones de salida (ms).
  * Debe coincidir con los valores definidos en animations.css */
-const EXIT_DURATION: Record<AnimationType, number> = {
+const EXIT_DURATION: Record<NgxNotifyAnimationType, number> = {
   fade:  180,
   slide: 200,
   zoom:  180,
@@ -26,14 +26,14 @@ export class NgxNotify {
   close$ = new Subject<void>();
 
   message   = input<string>('');
-  type      = input<NotifyType>('info');
-  position  = input<NotifyPosition>('top-right');
+  type      = input<NgxNotifyType>('info');
+  position  = input<NgxNotifyPositionType>('top-right');
   title     = input<string>('');
-  animation = input<AnimationType>('slide');
+  animation = input<NgxNotifyAnimationType>('slide');
   withIcon        = input<boolean>(true);
   withCloseButton = input<boolean>(true);
 
-  colorsConfig = input<ColorConfig>({});
+  colorsConfig = input<NgxNotifyColorConfig>({});
 
   colors = computed(() => {
     return {

@@ -1,4 +1,4 @@
-export interface ColorConfig {
+export interface NgxNotifyColorConfig {
   successColor?: string
   errorColor?: string
   warningColor?: string

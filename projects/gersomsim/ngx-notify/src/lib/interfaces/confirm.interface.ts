@@ -1,5 +1,5 @@
-import { NotifyType } from "../types";
-import { ConfirmEvent } from "./confirm-event.interface";
+import { NgxNotifyType } from "../types";
+import { NgxNotifyConfirmEvent } from "./confirm-event.interface";
 
 export interface ConfirmConfig {
     title?: string;
@@ -10,9 +10,9 @@ export interface ConfirmConfig {
     showCancelButton?: boolean;
     showConfirmButton?: boolean;
     // icon
-    icon?: NotifyType;
+    icon?: NgxNotifyType;
     // actions
-    callback?: (event: ConfirmEvent) => void;
+    callback?: (event: NgxNotifyConfirmEvent) => void;
     // settings
     timer?: number;
     showTimerProgressBar?: boolean;

@@ -7,17 +7,17 @@ import {
   Injectable,
 } from '@angular/core';
 import { NgxNotify as NgxNotifyComponent, NgxNotifyContainer } from '../components';
-import { ConfigNotify } from '../interfaces';
-import { NotifyPosition } from '../types';
+import { NgxNotifyToastConfig } from '../interfaces';
+import { NgxNotifyPositionType } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class NgxNotifyService {
   private appRef  = inject(ApplicationRef);
   private injector = inject(EnvironmentInjector);
 
-  private containers = new Map<NotifyPosition, ComponentRef<NgxNotifyContainer>>();
+  private containers = new Map<NgxNotifyPositionType, ComponentRef<NgxNotifyContainer>>();
 
-  private defaultNotify: ConfigNotify = {
+  private defaultNotify: NgxNotifyToastConfig = {
     message: '',
     type: 'info',
     position: 'top-right',
@@ -27,8 +27,8 @@ export class NgxNotifyService {
     duration: 3000,
   }
 
-  show(config: Partial<ConfigNotify>) {
-    const configNotify: ConfigNotify = { ...this.defaultNotify, ...config };
+  show(config: Partial<NgxNotifyToastConfig>) {
+    const configNotify: NgxNotifyToastConfig = { ...this.defaultNotify, ...config };
     const position = configNotify.position ?? 'top-right';
 
     const container = this.getOrCreateContainer(position);
@@ -49,7 +49,7 @@ export class NgxNotifyService {
     }, timeOnScreen);
   }
 
-  private getOrCreateContainer(position: NotifyPosition): ComponentRef<NgxNotifyContainer> {
+  private getOrCreateContainer(position: NgxNotifyPositionType): ComponentRef<NgxNotifyContainer> {
     if (!this.containers.has(position)) {
       const containerRef = createComponent(NgxNotifyContainer, {
         environmentInjector: this.injector,
@@ -62,7 +62,7 @@ export class NgxNotifyService {
     return this.containers.get(position)!;
   }
 
-  private createNotification(config: ConfigNotify): ComponentRef<NgxNotifyComponent> {
+  private createNotification(config: NgxNotifyToastConfig): ComponentRef<NgxNotifyComponent> {
     const compRef = createComponent(NgxNotifyComponent, {
       environmentInjector: this.injector,
     });

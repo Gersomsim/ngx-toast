@@ -1,16 +1,16 @@
 // ngx-notify.facade.ts
 import { inject, Injector, provideAppInitializer } from '@angular/core';
-import { BtnColors, ColorConfig, ConfigNotify, ConfirmConfig, NgxNotifyConfig } from '../interfaces';
+import { ConfirmConfig, NgxNotifyColorConfig, NgxNotifyConfig, NgxNotifyConfirmButtonColors, NgxNotifyToastConfig } from '../interfaces';
 import { NotifyServiceInternal } from '../services/notify-internal.service';
-import { NotifyPosition, NotifyType } from '../types';
+import { NgxNotifyPositionType, NgxNotifyType } from '../types';
 
-type colors = Partial<BtnColors & ColorConfig>
+type colors = Partial<NgxNotifyConfirmButtonColors & NgxNotifyColorConfig>
 
 export class NgxNotify {
   
   private static instance: NotifyServiceInternal;
   private static injector: Injector;
-  private static defaultConfig: Partial<ConfigNotify> = {
+  private static defaultConfig: Partial<NgxNotifyToastConfig> = {
     duration: 3000,
     position: 'top-right',
     closeButton: true,
@@ -106,14 +106,14 @@ export class NgxNotify {
     throw new Error('NgxNotify no ha sido inicializado. Llama a init() primero.');
   }
 
-  static setColors(colors: Partial<BtnColors & ColorConfig>): void {
+  static setColors(colors: Partial<NgxNotifyConfirmButtonColors & NgxNotifyColorConfig>): void {
     this.ngxColors = { ...this.ngxColors, ...colors };
   }
 
   /**
    * Actualiza la configuración por defecto global
    */
-  static setDefaultConfig(config: Partial<ConfigNotify>): void {
+  static setDefaultConfig(config: Partial<NgxNotifyToastConfig>): void {
     this.defaultConfig = { ...this.defaultConfig, ...config };
     
     if (this.instance) {
@@ -124,7 +124,7 @@ export class NgxNotify {
   /**
    * Obtiene la configuración por defecto actual
    */
-  static getDefaultConfig(): Partial<ConfigNotify> {
+  static getDefaultConfig(): Partial<NgxNotifyToastConfig> {
     return { ...this.defaultConfig };
   }
 
@@ -133,7 +133,7 @@ export class NgxNotify {
   // ---------------------------------------------------------------------------
 
 
-  static show(config: ConfigNotify): void {
+  static show(config: NgxNotifyToastConfig): void {
     if (!this.checkInitialized()) return;
     
     // Validaciones básicas
@@ -152,7 +152,7 @@ export class NgxNotify {
   /**
    * Muestra una notificación de éxito
    */
-  static success(message: string, config?: Partial<ConfigNotify>): void {
+  static success(message: string, config?: Partial<NgxNotifyToastConfig>): void {
     this.show({
       message,
       type: 'success',
@@ -164,7 +164,7 @@ export class NgxNotify {
   /**
    * Muestra una notificación de error
    */
-  static error(message: string, config?: Partial<ConfigNotify>): void {
+  static error(message: string, config?: Partial<NgxNotifyToastConfig>): void {
     this.show({
       message,
       type: 'error',
@@ -177,7 +177,7 @@ export class NgxNotify {
   /**
    * Muestra una notificación de advertencia
    */
-  static warning(message: string, config?: Partial<ConfigNotify>): void {
+  static warning(message: string, config?: Partial<NgxNotifyToastConfig>): void {
     this.show({
       message,
       type: 'warning',
@@ -190,7 +190,7 @@ export class NgxNotify {
   /**
    * Muestra una notificación informativa
    */
-  static info(message: string, config?: Partial<ConfigNotify>): void {
+  static info(message: string, config?: Partial<NgxNotifyToastConfig>): void {
     this.show({
       message,
       type: 'info',
@@ -203,19 +203,19 @@ export class NgxNotify {
   // Métodos de conveniencia con posiciones específicas
   // ---------------------------------------------------------------------------
 
-  static successAt(message: string, position: NotifyPosition, config?: Partial<ConfigNotify>): void {
+  static successAt(message: string, position: NgxNotifyPositionType, config?: Partial<NgxNotifyToastConfig>): void {
     this.success(message, { position, ...config });
   }
 
-  static errorAt(message: string, position: NotifyPosition, config?: Partial<ConfigNotify>): void {
+  static errorAt(message: string, position: NgxNotifyPositionType, config?: Partial<NgxNotifyToastConfig>): void {
     this.error(message, { position, ...config });
   }
 
-  static warningAt(message: string, position: NotifyPosition, config?: Partial<ConfigNotify>): void {
+  static warningAt(message: string, position: NgxNotifyPositionType, config?: Partial<NgxNotifyToastConfig>): void {
     this.warning(message, { position, ...config });
   }
 
-  static infoAt(message: string, position: NotifyPosition, config?: Partial<ConfigNotify>): void {
+  static infoAt(message: string, position: NgxNotifyPositionType, config?: Partial<NgxNotifyToastConfig>): void {
     this.info(message, { position, ...config });
   }
 
@@ -292,8 +292,8 @@ export class NgxNotify {
    * Muestra una notificación de prueba con todas las configuraciones
    */
   static demo(): void {
-    const types: NotifyType[] = ['success', 'error', 'warning', 'info'];
-    const positions: NotifyPosition[] = [
+    const types: NgxNotifyType[] = ['success', 'error', 'warning', 'info'];
+    const positions: NgxNotifyPositionType[] = [
       'top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center'
     ];
     

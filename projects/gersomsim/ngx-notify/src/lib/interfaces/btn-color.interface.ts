@@ -1,4 +1,4 @@
-export interface BtnColors {
+export interface NgxNotifyConfirmButtonColors {
   confirmBtnColor?: string
   confirmBtnTextColor?: string
   cancelBtnColor?: string

@@ -1,1 +1,1 @@
-export type NotifyPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center' | 'center-right' | 'center-left'  | 'center';
+export type NgxNotifyPositionType = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center' | 'center-right' | 'center-left'  | 'center';

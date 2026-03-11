@@ -1,11 +1,11 @@
-import { AnimationType, NotifyPosition, NotifyType } from "../types";
+import { NgxNotifyAnimationType, NgxNotifyPositionType, NgxNotifyType } from "../types";
 
-export interface ConfigNotify {
+export interface NgxNotifyToastConfig {
     message: string;
-    type: NotifyType;
-    position?: NotifyPosition;
+    type: NgxNotifyType;
+    position?: NgxNotifyPositionType;
     duration?:  number;
-    animation?: AnimationType;
+    animation?: NgxNotifyAnimationType;
     title?: string;
     icon?: boolean;
     closeButton?: boolean;

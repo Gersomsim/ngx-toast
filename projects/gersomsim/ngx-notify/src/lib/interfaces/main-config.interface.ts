@@ -1,12 +1,12 @@
-import { AnimationType, NotifyPosition } from "../types"
+import { NgxNotifyAnimationType, NgxNotifyPositionType } from "../types"
 
 export interface NgxNotifyConfig {
  timer?: number
  toast: {
-  position?: NotifyPosition
+  position?: NgxNotifyPositionType
   closeButton?: boolean
   icon?: boolean
-  animation?: AnimationType
+  animation?: NgxNotifyAnimationType
  }
  // Configuración de botones de confirmación
   successColor?: string

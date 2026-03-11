@@ -1,1 +1,1 @@
-export type NotifyType = 'success' | 'error' | 'warning' | 'info';
+export type NgxNotifyType = 'success' | 'error' | 'warning' | 'info';

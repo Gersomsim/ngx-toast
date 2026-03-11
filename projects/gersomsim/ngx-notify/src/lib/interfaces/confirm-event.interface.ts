@@ -1,7 +1,7 @@
-import { ConfirmEventType } from "../types";
+import { NgxNotifyConfirmEventType } from "../types";
 
-export interface ConfirmEvent {
-    type: ConfirmEventType;
+export interface NgxNotifyConfirmEvent {
+    type: NgxNotifyConfirmEventType;
     close: boolean;
     confirm: boolean;
     cancel: boolean;   

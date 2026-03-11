@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { NotifyType } from '../../types';
+import { NgxNotifyType } from '../../types';
 
 @Component({
   selector: 'gsm-notify-icon',
@@ -17,6 +17,6 @@ import { NotifyType } from '../../types';
   },
 })
 export class NgxNotifyIcon {
-  type = input<NotifyType>('info');
+  type = input<NgxNotifyType>('info');
   color = input<string>('');
 }

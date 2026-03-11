@@ -1,1 +1,1 @@
-export type AnimationType = 'fade' | 'slide' | 'zoom' | 'none';
+export type NgxNotifyAnimationType = 'fade' | 'slide' | 'zoom' | 'none';

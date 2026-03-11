@@ -1,8 +1,8 @@
 import { Component, computed, input, signal } from "@angular/core";
 import { Subject } from "rxjs";
-import { BtnColors, ColorConfig } from "../../interfaces";
-import { ConfirmEvent } from "../../interfaces/confirm-event.interface";
-import { ConfirmEventType, NotifyType } from "../../types";
+import { ConfirmEventType } from "../../enums";
+import { NgxNotifyColorConfig, NgxNotifyConfirmButtonColors, NgxNotifyConfirmEvent } from "../../interfaces";
+import { NgxNotifyConfirmEventType, NgxNotifyType } from "../../types";
 import { NgxNotifyIcon } from "../ngx-notify-icon/ngx-notify-icon";
 
 
@@ -22,7 +22,7 @@ const EXIT_DURATION = 180;
 export class NgxConfirm {
     title             = input<string>('');
     message           = input<string>('');
-    icon              = input<NotifyType>();
+    icon              = input<NgxNotifyType>();
     showCancelButton  = input<boolean>(false);
     cancelText        = input<string>('Cancel');
     showConfirmButton = input<boolean>(false);
@@ -31,7 +31,7 @@ export class NgxConfirm {
     timer             = input<number>(5000);
     showCloseButton   = input<boolean>(true);
     closeBackdropClick = input<boolean>(true);
-    colorsConfig = input<ColorConfig>({});
+    colorsConfig = input<NgxNotifyColorConfig>({});
 
     colors = computed(() => {
         return {
@@ -43,7 +43,7 @@ export class NgxConfirm {
         mainTextColor: this.colorsConfig().mainTextColor ?? '#40444dff'
         }   
     });
-    btnColorsConfig = input<BtnColors>({})
+    btnColorsConfig = input<NgxNotifyConfirmButtonColors>({})
 
     btnColors = computed(() => {
         const mainBg = this.colors().mainBgColor;
@@ -59,7 +59,7 @@ export class NgxConfirm {
     });
 
 
-    close$ = new Subject<ConfirmEvent>();
+    close$ = new Subject<NgxNotifyConfirmEvent>();
 
     private closing = signal(false);
 
@@ -68,15 +68,15 @@ export class NgxConfirm {
         this.closing() ? 'backdrop confirm--exit' : 'backdrop'
     );
 
-    close(type: ConfirmEventType) {
-        if(!this.closeBackdropClick() && type === 'backdropClick') {
+    close(type: NgxNotifyConfirmEventType) {
+        if(!this.closeBackdropClick() && type === ConfirmEventType.BackdropClick) {
             return;
         }
-        const eventToEmit: ConfirmEvent = {
+        const eventToEmit: NgxNotifyConfirmEvent = {
             type: type,
-            close: type === 'close',
-            confirm: type === 'confirm',
-            cancel: type === 'cancel',
+            close: type === ConfirmEventType.Close,
+            confirm: type === ConfirmEventType.Confirm,
+            cancel: type === ConfirmEventType.Cancel,
         };        
         this.closing.set(true);
         setTimeout(() => {
