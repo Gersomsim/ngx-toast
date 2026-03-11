@@ -4,6 +4,7 @@ Lightweight Angular library for **toast notifications** and **confirmation dialo
 
 [![npm](https://img.shields.io/npm/v/@gersomsim/ngx-notify)](https://www.npmjs.com/package/@gersomsim/ngx-notify)
 [![GitHub](https://img.shields.io/badge/GitHub-repo-181717?logo=github)](https://github.com/Gersomsim/ngx-toast)
+[![Docs](https://img.shields.io/badge/Docs-ngx--toast.vercel.app-black)](https://ngx-toast.vercel.app)
 [![Angular](https://img.shields.io/badge/Angular-21+-DD0031?logo=angular)](https://angular.dev)
 
 ---
@@ -275,9 +276,78 @@ type NgxNotifyPositionType     =
 
 ## Links
 
+- [Docs](https://ngx-toast.vercel.app)
 - [GitHub](https://github.com/Gersomsim/ngx-toast)
 - [npm](https://www.npmjs.com/package/@gersomsim/ngx-notify)
-- Docs — _coming soon_
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+### Getting started
+
+1. Fork the repository on [GitHub](https://github.com/Gersomsim/ngx-toast)
+2. Clone your fork and install dependencies:
+   ```bash
+   git clone https://github.com/<your-username>/ngx-toast.git
+   cd ngx-toast
+   npm install
+   ```
+3. Create a new branch from `main`:
+   ```bash
+   git checkout -b feat/your-feature-name
+   ```
+
+### Branch naming
+
+| Prefix | Use for |
+|---|---|
+| `feat/` | New features |
+| `fix/` | Bug fixes |
+| `docs/` | Documentation changes |
+| `refactor/` | Code refactoring without behavior changes |
+| `chore/` | Build, tooling, or dependency updates |
+
+### Development workflow
+
+Start the showcase app to see your changes live:
+
+```bash
+ng serve
+```
+
+Build the library to verify it compiles correctly:
+
+```bash
+ng build @gersomsim/ngx-notify
+```
+
+### Commit messages
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add zoom animation to confirm dialog
+fix: correct backdrop click handler on mobile
+docs: update ConfirmConfig table in README
+```
+
+### Pull requests
+
+- Keep PRs focused — one feature or fix per PR
+- Update the README if your change affects the public API
+- Ensure the showcase app works correctly with your changes
+- Describe what changed and why in the PR description
+
+### Reporting issues
+
+Open an issue on [GitHub](https://github.com/Gersomsim/ngx-toast/issues) with:
+- Angular version
+- Steps to reproduce
+- Expected vs actual behavior
+- A minimal code example if possible
 
 ---
 

@@ -3,6 +3,8 @@
 A lightweight Angular library for toast notifications and confirmation dialogs. Fully typed with TypeScript, designed for modern standalone applications.
 
 [![npm](https://img.shields.io/npm/v/@gersomsim/ngx-notify)](https://www.npmjs.com/package/@gersomsim/ngx-notify)
+[![Docs](https://img.shields.io/badge/Docs-ngx--toast.vercel.app-black)](https://ngx-toast.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-repo-181717?logo=github)](https://github.com/Gersomsim/ngx-toast)
 
 ---
 
