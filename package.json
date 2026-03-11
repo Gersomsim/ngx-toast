@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lib:build": "ng build @gersomsim/ngx-notify",
-    "lib:dev": "npm run watch @gersomsim/ngx-notify"
+    "lib:dev": "npm run watch @gersomsim/ngx-notify",
+    "lib:publish": "npm run lib:build && cd dist/gersomsim/ngx-notify && npm publish --access public"
   },
   "prettier": {
     "printWidth": 100,
@@ -31,6 +32,7 @@
     "@angular/forms": "^21.1.0",
     "@angular/platform-browser": "^21.1.0",
     "@angular/router": "^21.1.0",
+    "@gersomsim/ngx-notify": "^0.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
