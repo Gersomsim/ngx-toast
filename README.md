@@ -1,59 +1,391 @@
-# Toast
+# @gersomsim/ngx-notify
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A lightweight Angular library for toast notifications and confirmation dialogs. Fully typed with TypeScript, designed for modern standalone applications.
 
-## Development server
+[![npm](https://img.shields.io/npm/v/@gersomsim/ngx-notify)](https://www.npmjs.com/package/@gersomsim/ngx-notify)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Toast Notifications** — display lightweight messages to provide quick feedback
+- **Confirmation Dialogs** — prompt users to confirm or cancel important actions
+- **Standalone First** — designed for modern Angular applications using standalone providers
+- **Fully Typed** — strong TypeScript types for all configurations and events
+- **Predefined Types** — built-in support for `success`, `error`, `warning`, and `info`
+- **Flexible Injection** — use the static facade or inject services directly
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Requirements
 
-```bash
-ng generate component component-name
-```
+- Angular 21 or higher
+- TypeScript (included in Angular projects)
+- Application configured with standalone APIs (recommended)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Installation
 
 ```bash
-ng build
+npm install @gersomsim/ngx-notify
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The library includes its own styles — no additional CSS imports required.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Setup
 
-```bash
-ng test
+Register the library once in your application config using `NgxNotify.provide()`. No modules needed.
+
+```ts
+// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { NgxNotify } from '@gersomsim/ngx-notify';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    NgxNotify.provide({
+      timer: 3000,
+      toast: {
+        position: 'top-right',
+        closeButton: true,
+        animation: 'slide',
+      },
+    }),
+  ],
+};
 ```
 
-## Running end-to-end tests
+This global config defines the default behavior for all notifications and confirm dialogs across your app. Configuration is optional — if omitted, sensible defaults are used.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
+## Basic Usage
+
+`NgxNotify` can be used in two independent ways:
+
+1. **Static facade** — call `NgxNotify` methods directly anywhere in your code
+2. **Angular services** — inject `NgxNotifyService` or `NgxConfirmService`
+
+Both approaches work independently. If you use services directly, no global configuration is required.
+
+---
+
+## Toast Notifications
+
+### Static facade
+
+```ts
+import { NgxNotify } from '@gersomsim/ngx-notify';
+
+// Shorthand methods
+NgxNotify.success('Operation completed!');
+NgxNotify.error('Something went wrong.');
+NgxNotify.warning('Please review your input.');
+NgxNotify.info('New update available.');
+
+// Full configuration
+NgxNotify.show({
+  message: 'File saved successfully',
+  type: 'success',
+  title: 'Saved',
+  position: 'top-right',
+  duration: 4000,
+  animation: 'slide',
+  icon: true,
+  closeButton: true,
+  onClose: () => console.log('closed'),
+});
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Shorthand methods also accept a partial `NgxNotifyToastConfig` as a second argument to override specific options per call:
 
-## Additional Resources
+```ts
+NgxNotify.error('Upload failed', {
+  duration: 5000,
+  position: 'top-center',
+  animation: 'zoom',
+});
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Position-specific methods
+
+```ts
+NgxNotify.successAt('Saved!',   'bottom-right');
+NgxNotify.errorAt('Failed!',    'top-center');
+NgxNotify.warningAt('Careful!', 'center');
+NgxNotify.infoAt('Note',        'bottom-left');
+```
+
+### Dismiss all
+
+```ts
+NgxNotify.closeAll();
+```
+
+### Injectable service
+
+```ts
+import { Component, inject } from '@angular/core';
+import { NgxNotifyService } from '@gersomsim/ngx-notify';
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  template: `<button (click)="save()">Save</button>`,
+})
+export class DashboardComponent {
+  private notify = inject(NgxNotifyService);
+
+  save() {
+    this.notify.show({
+      message: 'Changes saved',
+      type: 'success',
+      position: 'bottom-right',
+    });
+  }
+}
+```
+
+### `NgxNotifyToastConfig`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `message` | `string` | required | Main body text of the notification. |
+| `type` | `NgxNotifyType` | required | Visual style and default icon. |
+| `title` | `string` | — | Optional heading above the message. |
+| `position` | `NgxNotifyPositionType` | `'top-right'` | Where the toast appears on screen. |
+| `duration` | `number` | `3000` | Milliseconds before auto-dismiss. |
+| `animation` | `NgxNotifyAnimationType` | `'fade'` | Entry and exit animation. |
+| `icon` | `boolean` | `true` | Show or hide the type icon. |
+| `closeButton` | `boolean` | `true` | Display a manual close (×) button. |
+| `onClose` | `() => void` | — | Callback fired when the notification is dismissed. |
+
+---
+
+## Confirmation Dialogs
+
+### Static facade
+
+```ts
+import { NgxNotify } from '@gersomsim/ngx-notify';
+
+NgxNotify.confirm({
+  title: 'Delete item',
+  message: 'This action cannot be undone. Are you sure?',
+  icon: 'error',
+  confirmText: 'Delete',
+  cancelText: 'Cancel',
+  showConfirmButton: true,
+  showCancelButton: true,
+  callback: (event) => {
+    if (event.confirm) deleteItem();
+  },
+});
+```
+
+### Injectable service
+
+```ts
+import { Component, inject } from '@angular/core';
+import { NgxConfirmService, NgxNotifyConfirmEvent } from '@gersomsim/ngx-notify';
+
+@Component({
+  selector: 'app-settings',
+  standalone: true,
+  template: `<button (click)="reset()">Reset settings</button>`,
+})
+export class SettingsComponent {
+  private confirm = inject(NgxConfirmService);
+
+  reset() {
+    this.confirm.show({
+      title: 'Reset settings',
+      message: 'All preferences will be restored to defaults.',
+      icon: 'warning',
+      confirmText: 'Reset',
+      showCancelButton: true,
+      callback: (event: NgxNotifyConfirmEvent) => {
+        if (event.confirm) this.resetSettings();
+      },
+    });
+  }
+
+  private resetSettings() { /* ... */ }
+}
+```
+
+### Handling the callback
+
+The `callback` receives a `NgxNotifyConfirmEvent` object regardless of how the dialog was dismissed.
+
+```ts
+NgxNotify.confirm({
+  title: 'Logout',
+  message: 'You will be signed out of all devices.',
+  showConfirmButton: true,
+  showCancelButton: true,
+  callback: (event) => {
+    if (event.confirm) handleConfirm();
+    if (event.cancel)  handleCancel();
+    if (event.close)   handleClose();
+
+    // event.type: 'confirm' | 'cancel' | 'close' | 'backdropClick'
+    console.log(event.type);
+  },
+});
+```
+
+### Auto-dismiss timer
+
+When both buttons are hidden, the dialog acts as an alert and auto-closes after `timer` ms.
+
+```ts
+NgxNotify.confirm({
+  title: 'Session expired',
+  message: 'You will be redirected in 5 seconds.',
+  icon: 'warning',
+  showConfirmButton: false,
+  showCancelButton: false,
+  timer: 5000,
+  showTimerProgressBar: true,
+  callback: (event) => {
+    if (event.close) redirect();
+  },
+});
+```
+
+### Backdrop click
+
+```ts
+NgxNotify.confirm({
+  title: 'Unsaved changes',
+  message: 'Close without saving?',
+  closeBackdropClick: true,
+  showConfirmButton: true,
+  showCancelButton: true,
+  callback: (event) => {
+    // event.type === 'backdropClick' when user clicks outside
+    console.log(event.type);
+  },
+});
+```
+
+### `ConfirmConfig`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `title` | `string` | — | Heading displayed at the top of the dialog. |
+| `message` | `string` | — | Body text shown below the title. |
+| `icon` | `NgxNotifyType` | `'info'` | Sets the icon and accent color of the dialog. |
+| `showConfirmButton` | `boolean` | `true` | Show or hide the primary action button. |
+| `confirmText` | `string` | `'Confirm'` | Label for the confirm button. |
+| `showCancelButton` | `boolean` | `false` | Show or hide the cancel button. |
+| `cancelText` | `string` | `'Cancel'` | Label for the cancel button. |
+| `callback` | `(event: NgxNotifyConfirmEvent) => void` | — | Called when the dialog is closed by any means. |
+| `timer` | `number` | — | Auto-dismiss after N milliseconds. Active when both buttons are hidden. |
+| `showTimerProgressBar` | `boolean` | `false` | Display a countdown bar when timer is set. |
+| `showCloseButton` | `boolean` | — | Show a close (×) button in the top-right corner. |
+| `closeBackdropClick` | `boolean` | `false` | Dismiss by clicking the backdrop overlay. |
+
+### `NgxNotifyConfirmEvent`
+
+| Property | Type | Description |
+|---|---|---|
+| `type` | `NgxNotifyConfirmEventType` | Which action triggered the callback: `'confirm'` \| `'cancel'` \| `'close'` \| `'backdropClick'`. |
+| `confirm` | `boolean` | `true` when the user clicked the confirm button. |
+| `cancel` | `boolean` | `true` when the user clicked the cancel button. |
+| `close` | `boolean` | `true` when the dialog was closed via the × button or auto-timer. |
+
+---
+
+## Global Configuration
+
+Define a configuration file at the root of your project for consistent behavior across the app.
+
+```ts
+// ngx-notify.config.ts
+import { NgxNotifyConfig } from '@gersomsim/ngx-notify';
+
+export const ngxNotifyConfig: NgxNotifyConfig = {
+  timer: 3000,
+  toast: {
+    position: 'top-right',
+    closeButton: true,
+    animation: 'slide',
+  },
+  confirmBtnColor: '#111827',
+};
+```
+
+```ts
+// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { NgxNotify } from '@gersomsim/ngx-notify';
+import { ngxNotifyConfig } from '../ngx-notify.config';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    NgxNotify.provide(ngxNotifyConfig),
+  ],
+};
+```
+
+### `NgxNotifyConfig`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `timer` | `number` | `3000` | Default auto-dismiss duration (ms). |
+| `toast` | `object` | `{}` | Default options for toast notifications (see below). |
+| `confirmBtnColor` | `string` | `'#111827'` | Background color for the confirm button. |
+| `confirmBtnTextColor` | `string` | `'#ffffff'` | Text color for the confirm button. |
+| `cancelBtnColor` | `string` | `'transparent'` | Background color for the cancel button. |
+| `cancelBtnTextColor` | `string` | `'#374151'` | Text color for the cancel button. |
+| `successColor` | `string` | `'#22c55e'` | Accent color for success notifications. |
+| `errorColor` | `string` | `'#ef4444'` | Accent color for error notifications. |
+| `warningColor` | `string` | `'#f59e0b'` | Accent color for warning notifications. |
+| `infoColor` | `string` | `'#0ea5e9'` | Accent color for info notifications. |
+| `mainBgColor` | `string` | `'#fff'` | Background color for notifications. |
+| `mainTextColor` | `string` | `'#40444d'` | Text color for notifications. |
+
+**Toast sub-config (`toast`):**
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `position` | `NgxNotifyPositionType` | `'top-right'` | Default position for toasts. |
+| `closeButton` | `boolean` | `false` | Show close button by default. |
+| `animation` | `NgxNotifyAnimationType` | `'slide'` | Default entry/exit animation. |
+| `icon` | `boolean` | `true` | Show icon by default. |
+
+---
+
+## Type Reference
+
+### `NgxNotifyType`
+
+```ts
+type NgxNotifyType = 'success' | 'error' | 'warning' | 'info';
+```
+
+### `NgxNotifyPositionType`
+
+```ts
+type NgxNotifyPositionType =
+  | 'top-left'    | 'top-center'    | 'top-right'
+  | 'center-left' | 'center'        | 'center-right'
+  | 'bottom-left' | 'bottom-center' | 'bottom-right';
+```
+
+### `NgxNotifyAnimationType`
+
+```ts
+type NgxNotifyAnimationType = 'fade' | 'slide' | 'zoom' | 'none';
+```
+
+### `NgxNotifyConfirmEventType`
+
+```ts
+type NgxNotifyConfirmEventType = 'confirm' | 'cancel' | 'close' | 'backdropClick';
+```
